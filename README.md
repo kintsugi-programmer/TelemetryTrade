@@ -309,4 +309,16 @@ MIT License © 2025 TelemetryTrade
   - Improved null/NaN safety across formatting
   - Introduced memoized filtering + sorting pipeline
   - Updated UI: sticky header controls, improved dark styling
+- feat(tokens): add full client-side pagination with page-size control and navigable footer
+  - Added pagination state: page + pageSize (25 | 50 | 100)
+  - Computed derived values: totalItems, totalPages, pageClamped, startIdx, endIdx
+  - Slice filtered dataset into pageData for rendering
+  - Added pagination footer with:
+    - Page size selector
+    - First / Prev / Next / Last buttons
+    - Windowed page-number display with ellipsis for large ranges
+  - Shows range badge: “Showing X–Y of N”
+  - Auto-resets to page 1 when query, sort, density, currency, or pageSize changes
+  - Proper disabled states + aria-label/title for navigation buttons
+  - Matches table styling (dark mode, borders, hover)
 

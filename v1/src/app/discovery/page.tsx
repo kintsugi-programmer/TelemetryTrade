@@ -282,6 +282,10 @@ const Page: React.FC = () => {
   const [sortKey, setSortKey] = useState<SortKey>('rank')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
+  // Pagination state
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState<25 | 50 | 100>(25)
+
   const load = useCallback(async () => {
     try {
       setLoading(true)
@@ -332,6 +336,19 @@ const Page: React.FC = () => {
     return sorted
   }, [tokens, query, sortKey, sortDir])
 
+  // Derived pagination values
+  const totalItems = filtered.length
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
+  const pageClamped = Math.min(page, totalPages)
+  const startIdx = (pageClamped - 1) * pageSize
+  const endIdx = Math.min(startIdx + pageSize, totalItems)
+  const pageData = filtered.slice(startIdx, endIdx)
+
+  // Reset to page 1 when core params change
+  useEffect(() => {
+    setPage(1)
+  }, [query, sortKey, sortDir, density, currency, pageSize])
+
   const densityRow = density === 'compact' ? 'py-2' : 'py-4'
 
   const HeaderCell: React.FC<PropsWithChildren<{ k: SortKey }>> = ({ k, children }) => (
@@ -361,14 +378,14 @@ const Page: React.FC = () => {
             
             <div className="flex items-center gap-3">
 
-                            <h1
-          className="font-rubik 
-                     sm:text-2xl md:text-4xl lg:text-4xl text-2xl
-                     leading-[0.9] text-white"
-        >
-          
-          Market<span className=""></span>
-        </h1>
+              <h1
+                className="font-rubik 
+                           sm:text-2xl md:text-4xl lg:text-4xl text-2xl
+                           leading-[0.9] text-white"
+              >
+                
+                Market<span className=""></span>
+              </h1>
               <div className="flex flex-col leading-tight hidden sm:block">
                 <span className="text-sm text-neutral-400">TelementryTrade</span>
                 <h1 className="text-lg font-semibold tracking-tight">Token Discovery</h1>
@@ -426,7 +443,9 @@ const Page: React.FC = () => {
         <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-neutral-400">
           <Badge intent="muted">Live • 60s auto-refresh</Badge>
           <Badge intent="muted">Last update: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : '—'}</Badge>
-          <Badge intent="default">{filtered.length} assets</Badge>
+          <Badge intent="default">
+            {totalItems === 0 ? '0 assets' : `Showing ${startIdx + 1}–${endIdx} of ${totalItems}`}
+          </Badge>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)]">
@@ -465,7 +484,7 @@ const Page: React.FC = () => {
                           ))}
                         </tr>
                       ))
-                    : filtered.map((t) => (
+                    : pageData.map((t) => (
                         <tr key={t.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
                           <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>{t.market_cap_rank ?? '—'}</td>
 
@@ -511,6 +530,118 @@ const Page: React.FC = () => {
                       ))}
                 </tbody>
               </table>
+
+              {/* Pagination footer */}
+              {!loading && !error && (
+                <div className="flex items-center justify-between gap-3 border-t border-white/10 bg-neutral-950/60 px-3 py-3">
+                  {/* Page size */}
+                  <div className="flex items-center gap-2 text-xs text-neutral-400">
+                    <span>Rows per page</span>
+                    <select
+                      value={pageSize}
+                      onChange={(e) => setPageSize(Number(e.target.value) as 25 | 50 | 100)}
+                      className="rounded-lg border border-white/10 bg-neutral-900 px-2 py-1 text-xs outline-none hover:bg-neutral-800/60"
+                    >
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                    <span className="hidden sm:inline">
+                      • Page {pageClamped}/{totalPages}
+                    </span>
+                  </div>
+
+                  {/* Pager buttons */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
+                      onClick={() => setPage(1)}
+                      disabled={pageClamped === 1}
+                      aria-label="First page"
+                      title="First page"
+                    >
+                      «
+                    </button>
+                    <button
+                      className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
+                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      disabled={pageClamped === 1}
+                      aria-label="Previous page"
+                      title="Previous page"
+                    >
+                      ‹
+                    </button>
+
+                    {/* Page numbers window */}
+                    {(() => {
+                      const pages: number[] = []
+                      const windowSize = 5
+                      let start = Math.max(1, pageClamped - Math.floor(windowSize / 2))
+                      let end = Math.min(totalPages, start + windowSize - 1)
+                      if (end - start + 1 < windowSize) start = Math.max(1, end - windowSize + 1)
+                      for (let i = start; i <= end; i++) pages.push(i)
+                      return (
+                        <div className="hidden sm:flex items-center gap-1">
+                          {start > 1 && (
+                            <>
+                              <button
+                                className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs hover:bg-neutral-800/60"
+                                onClick={() => setPage(1)}
+                              >
+                                1
+                              </button>
+                              {start > 2 && <span className="px-1 text-neutral-500">…</span>}
+                            </>
+                          )}
+                          {pages.map(n => (
+                            <button
+                              key={n}
+                              className={`rounded-md border px-2 py-1 text-xs ${
+                                n === pageClamped
+                                  ? 'border-emerald-500/30 bg-emerald-500/10'
+                                  : 'border-white/10 bg-neutral-900 hover:bg-neutral-800/60'
+                              }`}
+                              onClick={() => setPage(n)}
+                            >
+                              {n}
+                            </button>
+                          ))}
+                          {end < totalPages && (
+                            <>
+                              {end < totalPages - 1 && <span className="px-1 text-neutral-500">…</span>}
+                              <button
+                                className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs hover:bg-neutral-800/60"
+                                onClick={() => setPage(totalPages)}
+                              >
+                                {totalPages}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )
+                    })()}
+
+                    <button
+                      className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
+                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      disabled={pageClamped === totalPages}
+                      aria-label="Next page"
+                      title="Next page"
+                    >
+                      ›
+                    </button>
+                    <button
+                      className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
+                      onClick={() => setPage(totalPages)}
+                      disabled={pageClamped === totalPages}
+                      aria-label="Last page"
+                      title="Last page"
+                    >
+                      »
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
