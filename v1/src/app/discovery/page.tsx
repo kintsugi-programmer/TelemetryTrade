@@ -286,19 +286,21 @@ const Page: React.FC = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<25 | 50 | 100>(25)
 
-  const load = useCallback(async () => {
-    try {
-      setLoading(true)
-      setError(null)
-      const data = await fetchTokens(currency)
-      setTokens(data)
-      setLastUpdated(Date.now())
-    } catch (e: any) {
-      setError(e?.message ?? 'Something went wrong')
-    } finally {
-      setLoading(false)
-    }
-  }, [currency])
+const load = useCallback(async () => {
+  try {
+    setLoading(true)
+    setError(null)
+    const data = await fetchTokens(currency)
+    setTokens(data)
+    setLastUpdated(Date.now())
+  } catch (e: unknown) {
+    const err = e as { message?: string }
+    setError(err?.message ?? "Something went wrong")
+  } finally {
+    setLoading(false)
+  }
+}, [currency])
+
 
   useEffect(() => {
     load()
@@ -315,7 +317,7 @@ const Page: React.FC = () => {
       ? tokens.filter(t => t.name.toLowerCase().includes(q) || t.symbol.toLowerCase().includes(q))
       : tokens
 
-    const safe = (v: any) => (v == null || Number.isNaN(v) ? -Infinity : v)
+const safe = (v: number | null | undefined): number => v == null || Number.isNaN(v) ? -Infinity : v
     const cmp = (a: Token, b: Token): number => {
       switch (sortKey) {
         case 'rank': return safe(a.market_cap_rank) - safe(b.market_cap_rank)
@@ -576,9 +578,13 @@ const Page: React.FC = () => {
                     {(() => {
                       const pages: number[] = []
                       const windowSize = 5
-                      let start = Math.max(1, pageClamped - Math.floor(windowSize / 2))
-                      let end = Math.min(totalPages, start + windowSize - 1)
-                      if (end - start + 1 < windowSize) start = Math.max(1, end - windowSize + 1)
+let start = Math.max(1, pageClamped - Math.floor(windowSize / 2))
+const end = Math.min(totalPages, start + windowSize - 1)
+
+if (end - start + 1 < windowSize) {
+  start = Math.max(1, end - windowSize + 1)
+}
+
                       for (let i = start; i <= end; i++) pages.push(i)
                       return (
                         <div className="hidden sm:flex items-center gap-1">
