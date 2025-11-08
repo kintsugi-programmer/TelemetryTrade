@@ -192,3 +192,5 @@ Clone this repository, install dependencies, and start building! For bug reports
 
 MIT License © 2025 TelemetryTrade
 
+# Notes
+- Avoid Next.js 15; its forced jump to React 19 breaks half the ecosystem with dependency conflicts, while Next.js 14 stays rock-solid and production-safe.
