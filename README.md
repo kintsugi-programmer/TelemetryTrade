@@ -216,3 +216,4 @@ MIT License © 2025 TelemetryTrade
 - shadcn design system
 - Skeleton Loading UI + Shimmer State
 - Hero Section responsive
+- Clerk secure multiauth with various wallet accounts & mail
