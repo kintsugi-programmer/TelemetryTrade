@@ -2,7 +2,7 @@
 "use client";
 
 import { LightRays } from "@/components/ui/light-rays";
-
+import { Button1 } from "@/components/ui/button1";
 export default function Home() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950">
@@ -13,7 +13,7 @@ export default function Home() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center gap-4 px-6 text-center">
         <h1
           className="font-rubik text-center 
-                     text-5xl sm:text-6xl md:text-8xl lg:text-9xl xl:text-[10rem]
+                     text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[10rem]
                      leading-[0.9] text-white"
         >
           <span className="block sm:hidden">
@@ -39,7 +39,7 @@ export default function Home() {
         </p>
 
         <p
-          className="mt-6 max-w-3xl mx-auto text-center text-pretty text-gray-300
+          className="mt-6 max-w-5xl mx-auto text-center text-pretty text-gray-300
                      text-base sm:text-lg md:text-xl lg:text-2xl
                      leading-relaxed md:leading-8 font-medium
                      px-4 sm:px-6 lg:px-8"
@@ -48,7 +48,11 @@ export default function Home() {
           price movement of crypto tokens. Engineered with a Trade Token Discovery Table approach and
           built to meet the demanding standards of low-latency traders, the project is architected
           with strict performance, scalability, and accessibility principles in mind.
+
         </p>
+            <div className="grid place-content-center p-4">
+              <Button1 />
+            </div>
       </div>
     </div>
   );
