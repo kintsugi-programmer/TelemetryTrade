@@ -12,6 +12,10 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+        fontFamily: {
+    sans: ["var(--font-satoshi)", "system-ui", "sans-serif"], // default UI font
+    rubik: ["var(--font-rubik-80s)", "cursive"],              // optional for headings
+  },
     },
   },
   plugins: [],
