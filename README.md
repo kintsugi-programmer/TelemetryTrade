@@ -194,3 +194,20 @@ MIT License © 2025 TelemetryTrade
 
 # Notes
 - Avoid Next.js 15; its forced jump to React 19 breaks half the ecosystem with dependency conflicts, while Next.js 14 stays rock-solid and production-safe.
+  - or if wanna upgrade, use this overrides in config
+    ```js
+    "packageManager": "npm@10.5.2",
+    "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "next": "$next"},
+    ```
+- Added TypeScript, ESLint, TailwindCSS, and src/ directory structure
+- Implemented App Router with alias support for @/*
+- Added delayed loader for improved UX
+- Installed dependencies: react-icons and framer-motion
+- Built responsive sticky navbar (links via navLinks.json)
+- Created interactive responsive footer (links via footLinks.json)
+- Integrated newsletter form with MailService + NewsletterService APIs
+- Stored subscribed user in mailUsers.json
+- Added .env to .gitignore for security
