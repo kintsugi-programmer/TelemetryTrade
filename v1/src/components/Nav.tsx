@@ -2,7 +2,7 @@
 
 import { motion as motionAnimation, type Variants, type Transition } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { FiMenu, FiArrowRight } from 'react-icons/fi';
 import rawNavLinks from '@/data/navLinks.json';
@@ -87,18 +87,18 @@ const FlipNav = ({
 
 /* ---------------- Left ---------------- */
 
-const Logo = () => (
-  <Link
-    href="/"
-    className="inline-flex items-center gap-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70"
-    aria-label="TelemetryTrade home"
-  >
+// const Logo = () => (
+//   <Link
+//     href="/"
+//     className="inline-flex items-center gap-2 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/70"
+//     aria-label="TelemetryTrade home"
+//   >
 
-    <span className=" font-rubik text-2xl hidden sm:block ">
-      Telemetry<span className="">Trade</span>
-    </span>
-  </Link>
-);
+//     <span className=" font-rubik text-2xl hidden sm:block ">
+//       Telemetry<span className="">Trade</span>
+//     </span>
+//   </Link>
+// );
 
 const NavLeft = ({ setIsOpen }: { setIsOpen: Dispatch<SetStateAction<boolean>> }) => (
   <div className="flex items-center gap-2 sm:gap-6">
