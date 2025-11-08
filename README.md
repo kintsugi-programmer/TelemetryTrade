@@ -215,3 +215,4 @@ MIT License © 2025 TelemetryTrade
 - fonts --font-satoshi --font-rubik-80s
 - shadcn design system
 - Skeleton Loading UI + Shimmer State
+- Hero Section responsive
