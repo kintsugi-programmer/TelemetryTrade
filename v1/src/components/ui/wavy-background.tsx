@@ -31,7 +31,7 @@ export const WavyBackground: React.FC<WavyBackgroundProps> = ({
   containerClassName,
   colors,
   waveWidth = 50,
-  backgroundFill = "transparent",
+  backgroundFill = "black",
   blur = 10,
   speed = "fast",
   waveOpacity = 0.5,
