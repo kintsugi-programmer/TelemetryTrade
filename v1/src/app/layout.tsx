@@ -3,9 +3,9 @@ import localFont from "next/font/local";
 
 import { Rubik_80s_Fade } from "next/font/google"; 
 import "./globals.css";
-import Footer from '@/components/Foot'
+// import Footer from '@/components/Foot'
 import DelayedLoader from '@/components/DelayedLoader'
-import Nav from "@/components/Nav";
+// import Nav from "@/components/Nav";
 const satoshi = localFont({
   src: [
     {
