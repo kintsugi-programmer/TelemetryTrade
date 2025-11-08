@@ -11,9 +11,7 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-/* ===========================
-   Types
-   =========================== */
+/* Types */
 interface Token {
   id: string
   symbol: string
@@ -33,9 +31,7 @@ interface Token {
 
 type Currency = 'usd' | 'inr'
 
-/* ===========================
-   API
-   =========================== */
+/* API */
 const fetchTokens = async (currency: Currency): Promise<Token[]> => {
   const res = await fetch(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en`,
@@ -45,9 +41,7 @@ const fetchTokens = async (currency: Currency): Promise<Token[]> => {
   return res.json()
 }
 
-/* ===========================
-   Utils
-   =========================== */
+/* Utils */
 const CURRENCY_SYMBOL: Record<Currency, string> = { usd: '$', inr: '₹' }
 
 const formatCompact = (num?: number | null, cur?: Currency): string => {
@@ -76,9 +70,7 @@ const formatSupply = (supply?: number | null): string => {
   return supply.toFixed(0)
 }
 
-/* ===========================
-   Icons
-   =========================== */
+/* Icons */
 const ArrowUp = ({ className = '' }) => (
   <svg viewBox="0 0 20 20" className={`h-3.5 w-3.5 ${className}`} aria-hidden="true">
     <path d="M10 4l6 6H4l6-6zm0 0v12" fill="currentColor" />
@@ -90,9 +82,7 @@ const ArrowDown = ({ className = '' }) => (
   </svg>
 )
 
-/* ===========================
-   Tooltip system
-   =========================== */
+/* Tooltip system */
 const TooltipRoot: React.FC<PropsWithChildren> = ({ children }) => <>{children}</>
 
 type TooltipTriggerProps = PropsWithChildren<HTMLAttributes<HTMLSpanElement>>
@@ -171,9 +161,7 @@ const HoverCard: React.FC<PropsWithChildren<{ content: React.ReactNode; delay?: 
   )
 }
 
-/* ===========================
-   Badge
-   =========================== */
+/* Badge */
 type BadgeIntent = 'default' | 'success' | 'danger' | 'muted'
 const Badge: React.FC<PropsWithChildren<{ intent?: BadgeIntent }>> = ({ intent = 'default', children }) => {
   const map: Record<BadgeIntent, string> = {
@@ -197,9 +185,7 @@ const PriceChangeBadge = ({ value }: { value: number | null }) => {
   )
 }
 
-/* ===========================
-   Sparkline (with hover price tooltip)
-   =========================== */
+/* Sparkline (with hover price tooltip) */
 const Sparkline: React.FC<{
   data?: number[]
   currency: Currency
@@ -281,9 +267,7 @@ const Sparkline: React.FC<{
   )
 }
 
-/* ===========================
-   Main Page
-   =========================== */
+/* Main Page */
 type SortKey = 'rank' | 'name' | 'price' | 'h1' | 'h24' | 'd7' | 'mcap' | 'vol' | 'supply'
 
 const Page: React.FC = () => {
@@ -372,14 +356,25 @@ const Page: React.FC = () => {
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/10 bg-neutral-950/70 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/55">
         <div className="mx-auto max-w-7xl px-4">
+
           <div className="flex h-16 items-center justify-between gap-4">
+            
             <div className="flex items-center gap-3">
-              <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 shadow-[0_0_20px_-6px] shadow-cyan-400/40" />
-              <div className="flex flex-col leading-tight">
+
+                            <h1
+          className="font-rubik 
+                     sm:text-2xl md:text-4xl lg:text-4xl text-2xl
+                     leading-[0.9] text-white"
+        >
+          
+          Market<span className=""></span>
+        </h1>
+              <div className="flex flex-col leading-tight hidden sm:block">
                 <span className="text-sm text-neutral-400">TelementryTrade</span>
                 <h1 className="text-lg font-semibold tracking-tight">Token Discovery</h1>
               </div>
             </div>
+            
 
             <div className="flex items-center gap-2">
               <div className="hidden md:flex items-center gap-2 rounded-xl border border-white/10 bg-neutral-900 px-3 py-2">
