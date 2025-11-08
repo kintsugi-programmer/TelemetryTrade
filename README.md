@@ -219,3 +219,7 @@ MIT License © 2025 TelemetryTrade
 - Clerk secure multiauth with various wallet accounts & mail
 - Responsive Navbar with Mobile Menu 
 - Responsive Footer with Newsletters Section
+- Added @tanstack/react-query for data fetching and caching
+- Installed recharts for chart visualizations
+- Added lucide-react for icons
+- Installed tailwindcss-animate, class-variance-authority, clsx, and tailwind-merge for enhanced styling and utility support
