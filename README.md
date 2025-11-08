@@ -217,3 +217,5 @@ MIT License © 2025 TelemetryTrade
 - Skeleton Loading UI + Shimmer State
 - Hero Section responsive
 - Clerk secure multiauth with various wallet accounts & mail
+- Responsive Navbar with Mobile Menu 
+- Responsive Footer with Newsletters Section

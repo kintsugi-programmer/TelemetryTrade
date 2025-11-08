@@ -22,18 +22,27 @@ const iconMap: Record<string, IconType> = {
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white text-black px-6 md:px-12 pt-20 pb-10 text-sm">
+    <footer className="w-full px-6 md:px-12 pt-20 pb-10 text-sm">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
         {/* Logo + Newsletter + Social */}
         <div className="col-span-2 flex flex-col gap-6">
           <Link href="/" className="flex items-center gap-4">
-            <Image
+            {/* <Image
               src="/Images/Logo.png"
               alt="Logo"
               width={200}
               height={80}
               className="transition-transform duration-300 hover:scale-110"
-            />
+            /> */}
+             <h1
+          className="font-rubik 
+                     sm:text-2xl md:text-8xl lg:text-5xl text-5xl
+                     leading-[0.9] text-white"
+        >
+          
+          <span className="">Telemetry</span>
+        </h1>
+
           </Link>
 
           {/* Newsletter */}
@@ -63,7 +72,7 @@ const Footer = () => {
                 name="email"
                 required
                 placeholder="Enter your email"
-                className="bg-white text-black px-4 py-2 flex-1 outline-none placeholder:text-zinc-900"
+                className="bg-white text-black px-4 py-2 flex-1 outline-none placeholder:"
               />
               <button
                 type="submit"
@@ -93,7 +102,7 @@ const Footer = () => {
         {/* Useful Links */}
         <div className="space-y-2">
           <h4 className="text-lg font-semibold mb-4">Useful Links</h4>
-          <ul className="space-y-2 text-zinc-900">
+          <ul className="space-y-2 ">
             {footLinks.usefulLinks.map(({ label, href }) => (
               <li key={label} className="hover:text-purple-500 hover:translate-x-1 transition duration-200">
                 <Link href={href}>{label}</Link>
@@ -105,7 +114,7 @@ const Footer = () => {
         {/* More */}
         <div className="space-y-2">
           <h4 className="text-lg font-semibold mb-4">More</h4>
-          <ul className="space-y-2 text-zinc-900">
+          <ul className="space-y-2 ">
             {footLinks.moreLinks.map(({ label, href }) => (
               <li key={label} className="hover:text-blue-500 hover:translate-x-1 transition duration-200">
                 <Link href={href}>{label}</Link>
@@ -117,7 +126,7 @@ const Footer = () => {
         {/* Contact */}
         <div className="space-y-2">
           <h4 className="text-lg font-semibold mb-4">Contact</h4>
-          <div className="text-zinc-900 leading-relaxed space-y-1">
+          <div className=" leading-relaxed space-y-1">
             {footLinks.contact.addressLines.map((line, index) => (
               <p key={index}>{line}</p>
             ))}
@@ -134,7 +143,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="text-center text-zinc-900 mt-12 pt-6 border-t border-zinc-900">
+      <div className="text-center  mt-12 pt-6 border-t border-zinc-900">
         &copy; {new Date().getFullYear()} {footLinks.copyright}. All rights reserved.
       </div>
     </footer>

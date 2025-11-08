@@ -5,7 +5,7 @@ import {
 } from '@clerk/nextjs'
 import { Rubik_80s_Fade } from "next/font/google"; 
 import "./globals.css";
-// import Footer from '@/components/Foot'
+import Footer from '@/components/Foot'
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
 const satoshi = localFont({
@@ -55,7 +55,7 @@ export default function RootLayout({
   </div>
 
         <DelayedLoader>{children}</DelayedLoader>
-        {/* <Footer/> */}
+        <Footer/>
       </body>
     </html>
     </ClerkProvider>
