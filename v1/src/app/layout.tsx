@@ -6,6 +6,7 @@ import {
 import { Rubik_80s_Fade } from "next/font/google"; 
 import "./globals.css";
 import Footer from '@/components/Foot'
+import { Providers } from "@/provider";
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
 const satoshi = localFont({
@@ -45,6 +46,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <Providers>
     <ClerkProvider>
     <html lang="en">
       <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
@@ -54,10 +56,14 @@ export default function RootLayout({
     <Nav />
   </div>
 
-        <DelayedLoader>{children}</DelayedLoader>
+        <DelayedLoader>
+          {children}
+            
+          </DelayedLoader>
         <Footer/>
       </body>
     </html>
     </ClerkProvider>
+    </Providers>
   );
 }

@@ -223,3 +223,72 @@ MIT License © 2025 TelemetryTrade
 - Installed recharts for chart visualizations
 - Added lucide-react for icons
 - Installed tailwindcss-animate, class-variance-authority, clsx, and tailwind-merge for enhanced styling and utility support
+- feat(tokens): add Token Discovery table with CoinGecko data, null-safety, sparkline, and auto-refresh
+  - WHY
+    - Needed a compact crypto “discovery” table with real-time market data.
+    - Existing UI had no polling, no graceful null handling, and no quick trend insight.
+  - WHAT
+    - Added Token Discovery page rendering top-20 tokens.
+    - Pulled live data from CoinGecko `coins/markets` with sparkline + price % changes.
+    - Auto-refresh every 60s + Next revalidate(60) for caching.
+    - Graceful null/NaN handling everywhere.
+    - SVG sparkline (no chart libs) + min/max hover info.
+    - Inline SVG up/down badges for 1h/24h/7d % moves.
+    - Skeleton rows shown on load.
+    - Dark mode friendly.
+    - Semantic table markup.
+  - LOGIC & THINKING
+    - Data shaped into `Token` interface; numeric fields made `number | null`.
+    - `fetchTokens()` throws if `!res.ok`; error surfaced in UI.
+    - Minimal state: tokens/error/loading.
+    - `useEffect`: initial load + 60s poll with cleanup.
+    - Formatters return `-` when num is null/NaN. Prices <1 use higher precision.
+    - Percent fields show +/- sign via lightweight badge.
+    - Sparkline:
+      - Pure SVG; X from index, Y normalized by min/max.
+      - Fallback to 2-point flat line if array missing or small.
+      - `useMemo` avoids repeated geometry calc.
+      - Green if last >= first; else red.
+    - Table rows show:
+      rank | name/symbol/image | price | 1h% | 24h% | 7d% | sparkline | market cap | volume | circ supply
+    - Skeleton rows keep layout stable while loading.
+  - API DETAILS
+    - CoinGecko endpoint:
+      - GET /api/v3/coins/markets
+      - vs_currency=usd
+      - order=market_cap_desc
+      - per_page=20
+      - page=1
+      - sparkline=true
+      - price_change_percentage=1h,24h,7d
+      - locale=en
+    - Notes:
+      - No API key.
+      - Missing fields possible → null-safe UI.
+      - Rate-limits → combined polling + revalidate to be gentle.
+  - EDGE CASES HANDLED
+    - API failure → friendly error panel.
+    - Null numeric fields → “-”.
+    - Missing or tiny sparkline → flat fallback line.
+    - range=0 → guard to avoid div-by-zero.
+    - Very small price (<$1) → show 6 dp.
+  - PERF
+    - Inline SVG (no chart deps).
+    - `useMemo` for sparkline geometry.
+    - Minimal DOM.
+  - FUTURE IMPROVEMENTS
+    - Sort/filter columns.
+    - Currency selector + locale options.
+    - Search bar.
+    - Retry CTA + jittered poll.
+    - Virtualize rows for >50 assets.
+  - SECURITY
+    - No secrets; only public HTTPS API.
+    - No user data stored.
+  - CHANGELOG
+    - add Token Discovery table
+    - add CoinGecko fetch + polling
+    - add null-safe formatters
+    - add SVG sparkline
+    - add loading skeleton + error UI
+    - style dark/light modes
