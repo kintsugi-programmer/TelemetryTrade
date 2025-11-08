@@ -77,18 +77,8 @@ const formatSupply = (supply?: number | null): string => {
 }
 
 /* ===========================
-   Tiny inline icons
+   Icons
    =========================== */
-const Star = ({ filled, className = '' }: { filled?: boolean; className?: string }) => (
-  <svg viewBox="0 0 24 24" className={`h-5 w-5 ${className}`} aria-hidden="true">
-    <path
-      d="M12 3l2.9 5.88 6.5.95-4.7 4.58 1.1 6.42L12 18.77 6.2 20.83l1.1-6.42L2.6 9.83l6.5-.95L12 3z"
-      fill={filled ? 'currentColor' : 'none'}
-      stroke="currentColor"
-      strokeWidth="1.4"
-    />
-  </svg>
-)
 const ArrowUp = ({ className = '' }) => (
   <svg viewBox="0 0 20 20" className={`h-3.5 w-3.5 ${className}`} aria-hidden="true">
     <path d="M10 4l6 6H4l6-6zm0 0v12" fill="currentColor" />
@@ -101,7 +91,7 @@ const ArrowDown = ({ className = '' }) => (
 )
 
 /* ===========================
-   shadcn-like Tooltip (custom)
+   Tooltip system
    =========================== */
 const TooltipRoot: React.FC<PropsWithChildren> = ({ children }) => <>{children}</>
 
@@ -182,7 +172,7 @@ const HoverCard: React.FC<PropsWithChildren<{ content: React.ReactNode; delay?: 
 }
 
 /* ===========================
-   Badges & Chips
+   Badge
    =========================== */
 type BadgeIntent = 'default' | 'success' | 'danger' | 'muted'
 const Badge: React.FC<PropsWithChildren<{ intent?: BadgeIntent }>> = ({ intent = 'default', children }) => {
@@ -208,7 +198,7 @@ const PriceChangeBadge = ({ value }: { value: number | null }) => {
 }
 
 /* ===========================
-   Sparkline with tooltip (exact price)
+   Sparkline (with hover price tooltip)
    =========================== */
 const Sparkline: React.FC<{
   data?: number[]
@@ -242,7 +232,6 @@ const Sparkline: React.FC<{
     if (!points.length || !containerRef.current) return
     const rect = (e.currentTarget as SVGSVGElement).getBoundingClientRect()
     const mx = e.clientX - rect.left
-    // nearest x
     let nearest = points[0]
     let dmin = Infinity
     for (const p of points) {
@@ -260,7 +249,6 @@ const Sparkline: React.FC<{
   const stroke = lastUp ? 'stroke-emerald-400' : 'stroke-rose-400'
   const fill = lastUp ? 'fill-emerald-500/10' : 'fill-rose-500/10'
 
-  // Tooltip inside the container (absolute)
   const PriceTooltip = () =>
     hover ? (
       <div
@@ -310,17 +298,6 @@ const Page: React.FC = () => {
   const [sortKey, setSortKey] = useState<SortKey>('rank')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
 
-  const [watch, setWatch] = useState<Record<string, boolean>>({})
-
-  // load watchlist on mount
-  useEffect(() => {
-    const w = localStorage.getItem('tt_watchlist')
-    if (w) setWatch(JSON.parse(w))
-  }, [])
-  useEffect(() => {
-    localStorage.setItem('tt_watchlist', JSON.stringify(watch))
-  }, [watch])
-
   const load = useCallback(async () => {
     try {
       setLoading(true)
@@ -339,7 +316,6 @@ const Page: React.FC = () => {
     load()
   }, [load])
 
-  // auto refresh
   useEffect(() => {
     const id = setInterval(load, 60_000)
     return () => clearInterval(id)
@@ -471,7 +447,6 @@ const Page: React.FC = () => {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/5">
-                    <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">⭐</th>
                     <HeaderCell k="rank">#</HeaderCell>
                     <HeaderCell k="name">Name</HeaderCell>
                     <HeaderCell k="price">Price</HeaderCell>
@@ -488,72 +463,57 @@ const Page: React.FC = () => {
                   {loading
                     ? Array.from({ length: 12 }).map((_, i) => (
                         <tr key={i} className="border-b border-white/5">
-                          {Array.from({ length: 11 }).map((__, j) => (
+                          {Array.from({ length: 10 }).map((__, j) => (
                             <td key={`${i}-${j}`} className={`px-4 ${densityRow}`}>
                               <div className="h-4 w-24 animate-pulse rounded bg-neutral-800/80" />
                             </td>
                           ))}
                         </tr>
                       ))
-                    : filtered.map((t) => {
-                        const isWatched = !!watch[t.id]
-                        return (
-                          <tr key={t.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
-                            <td className={`px-4 ${densityRow}`}>
-                              <button
-                                onClick={() => setWatch(w => ({ ...w, [t.id]: !w[t.id] }))}
-                                className="text-amber-400/70 hover:text-amber-400"
-                                aria-label={isWatched ? 'Remove from watchlist' : 'Add to watchlist'}
-                              >
-                                <Star filled={isWatched} />
-                              </button>
-                            </td>
+                    : filtered.map((t) => (
+                        <tr key={t.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
+                          <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>{t.market_cap_rank ?? '—'}</td>
 
-                            <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>{t.market_cap_rank ?? '—'}</td>
-
-                            <td className={`px-4 ${densityRow}`}>
-                              <div className="flex items-center gap-3">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={t.image} alt={t.name} className="h-8 w-8 rounded-full" />
-                                <div>
-                                  <div className="font-semibold">{t.name}</div>
-                                  <div className="text-[10px] uppercase text-neutral-400">{t.symbol}</div>
-                                </div>
+                          <td className={`px-4 ${densityRow}`}>
+                            <div className="flex items-center gap-3">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={t.image} alt={t.name} className="h-8 w-8 rounded-full" />
+                              <div>
+                                <div className="font-semibold">{t.name}</div>
+                                <div className="text-[10px] uppercase text-neutral-400">{t.symbol}</div>
                               </div>
-                            </td>
+                            </div>
+                          </td>
 
-                            <td className={`px-4 ${densityRow} font-mono text-sm`}>
-                              {/* Hover tooltip shows the exact price with currency */}
-                              <HoverCard content={<div>{t.name} spot price</div>}>
-                                <span className="cursor-default underline decoration-dotted underline-offset-4">
-                                  {formatPrice(t.current_price ?? undefined, currency)}
-                                </span>
-                              </HoverCard>
-                            </td>
+                          <td className={`px-4 ${densityRow} font-mono text-sm`}>
+                            <HoverCard content={<div>{t.name} spot price</div>}>
+                              <span className="cursor-default underline decoration-dotted underline-offset-4">
+                                {formatPrice(t.current_price ?? undefined, currency)}
+                              </span>
+                            </HoverCard>
+                          </td>
 
-                            <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_1h_in_currency} /></td>
-                            <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_24h_in_currency} /></td>
-                            <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_7d_in_currency} /></td>
+                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_1h_in_currency} /></td>
+                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_24h_in_currency} /></td>
+                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_7d_in_currency} /></td>
 
-                            <td className={`px-4 ${densityRow}`}>
-                              {/* Sparkline with hover tooltip displaying exact price */}
-                              <Sparkline data={t.sparkline_in_7d?.price} currency={currency} />
-                            </td>
+                          <td className={`px-4 ${densityRow}`}>
+                            <Sparkline data={t.sparkline_in_7d?.price} currency={currency} />
+                          </td>
 
-                            <td className={`px-4 ${densityRow} text-sm font-medium`}>
-                              {formatCompact(t.market_cap ?? undefined, currency)}
-                            </td>
+                          <td className={`px-4 ${densityRow} text-sm font-medium`}>
+                            {formatCompact(t.market_cap ?? undefined, currency)}
+                          </td>
 
-                            <td className={`px-4 ${densityRow} text-sm`}>
-                              {formatCompact(t.total_volume ?? undefined, currency)}
-                            </td>
+                          <td className={`px-4 ${densityRow} text-sm`}>
+                            {formatCompact(t.total_volume ?? undefined, currency)}
+                          </td>
 
-                            <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>
-                              {formatSupply(t.circulating_supply)} {t.symbol?.toUpperCase()}
-                            </td>
-                          </tr>
-                        )
-                      })}
+                          <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>
+                            {formatSupply(t.circulating_supply)} {t.symbol?.toUpperCase()}
+                          </td>
+                        </tr>
+                      ))}
                 </tbody>
               </table>
             </div>

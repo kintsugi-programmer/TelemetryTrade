@@ -292,3 +292,21 @@ MIT License © 2025 TelemetryTrade
     - add SVG sparkline
     - add loading skeleton + error UI
     - style dark/light modes
+- feat(tokens): add currency switcher, sorting, filtering, density toggle, and interactive sparkline
+  - Added currency selector (USD/INR) with dynamic price + compact formatting
+  - Expanded API fetch to 100 assets; removed server revalidate, using no-store
+  - Implemented live client-side search for name/symbol
+  - Added sortable table headers for rank, name, price, pct-changes, mcap, volume, supply
+  - Added row-density toggle (comfortable/compact)
+  - Added manual data Refresh control + visible timestamps
+  - Added status badges (asset count, last update, auto-refresh indicator)
+  - Reworked sparkline to include:
+    - Area fill + stroke
+    - Hover crosshair + marker
+    - Tooltip price display (portal)
+  - Added lightweight Tooltip/HoverCard system using portals
+  - Added PriceChangeBadge w/ semantic intents (success/danger/muted)
+  - Improved null/NaN safety across formatting
+  - Introduced memoized filtering + sorting pipeline
+  - Updated UI: sticky header controls, improved dark styling
+
