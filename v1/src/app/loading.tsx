@@ -2,7 +2,6 @@
 
 
 import React from 'react';
-import Image from 'next/image';
 import styled from 'styled-components';
 const Loading = () => {
   return (<div className="relative flex flex-col items-center justify-center h-screen" >
