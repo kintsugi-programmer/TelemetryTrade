@@ -91,7 +91,7 @@ export function LightRays({
   color = "rgba(160, 210, 255, 0.2)",
   blur = 36,
   speed = 14,
-  length = "70vh",
+  length = "100vh",
   ref,
   ...props
 }: LightRaysProps) {
@@ -106,7 +106,7 @@ export function LightRays({
     <div
       ref={ref}
       className={cn(
-        "pointer-events-none absolute inset-0 isolate overflow-hidden rounded-[inherit]",
+        "pointer-events-none absolute inset-0 isolate w-full h-full rounded-[inherit]",
         className
       )}
       style={

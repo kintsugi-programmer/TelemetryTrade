@@ -17,7 +17,7 @@ export default function Home() {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-8xl flex-col items-center justify-center gap-2 px-6 text-center">
         <h1
           className="font-rubik text-center 
-                     sm:text-7xl md:text-8xl lg:text-9xl text-4xl pt-40
+                     sm:text-7xl md:text-8xl lg:text-9xl text-6xl pt-40
                      leading-[0.9] text-white"
         >
           <span className="block sm:hidden">
