@@ -1,6 +1,7 @@
 // app/page.tsx
 "use client";
-
+import React from "react";
+import { WavyBackground } from "@/components/ui/wavy-background";
 import { LightRays } from "@/components/ui/light-rays";
 import { Button1 } from "@/components/ui/button1";
 export default function Home() {
@@ -8,12 +9,14 @@ export default function Home() {
     <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950">
       {/* Decorative BG behind content */}
       <LightRays className="pointer-events-none absolute inset-0 z-0" />
+      <WavyBackground className="mx-auto pb-40">
+
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center gap-4 px-6 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-8xl flex-col items-center justify-center gap-2 px-6 text-center">
         <h1
           className="font-rubik text-center 
-                     sm:text-4xl md:text-5xl lg:text-6xl xl:text-[10rem]
+                     sm:text-7xl md:text-8xl lg:text-9xl pt-20
                      leading-[0.9] text-white"
         >
           <span className="block sm:hidden">
@@ -24,7 +27,7 @@ export default function Home() {
 
         <h2
           className="text-center font-extrabold tracking-wide uppercase
-                     text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl
+                     text-white text-xl sm:text-2xl md:text-2xl lg:text-3xl
                      drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]"
         >
           High-Performance Token Trading Interface
@@ -40,7 +43,7 @@ export default function Home() {
 
         <p
           className="mt-6 max-w-6xl mx-auto text-center text-pretty text-gray-300
-                     text-base sm:text-lg md:text-xl lg:text-2xl
+                     text-base sm:text-lg md:text-xl lg:text-xl
                      leading-relaxed md:leading-8 font-medium
                      px-4 sm:px-6 lg:px-8"
         >
@@ -54,6 +57,7 @@ export default function Home() {
               <Button1 />
             </div>
       </div>
+      </WavyBackground>
     </div>
   );
 }
