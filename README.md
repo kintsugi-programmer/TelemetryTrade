@@ -1,6 +1,6 @@
 # 🚀 TelemetryTrade – High-Performance Token Trading Interface
 
-TelemetryTrade is a modern, high-performance web trading interface designed to show real-time price movement of crypto tokens. Inspired by the Axiom Trade Token Discovery Table and built to meet the demanding standards of low-latency traders, the project is architected with strict performance, scalability, and accessibility principles in mind.
+TelemetryTrade is a modern, high-performance web trading interface designed to show real-time price movement of crypto tokens. Engineered Trade Token Discovery Table and built to meet the demanding standards of low-latency traders, the project is architected with strict performance, scalability, and accessibility principles in mind.
 
 ---
 
@@ -214,3 +214,4 @@ MIT License © 2025 TelemetryTrade
 - favicon with manifest
 - fonts --font-satoshi --font-rubik-80s
 - shadcn design system
+- Skeleton Loading UI + Shimmer State
