@@ -39,7 +39,7 @@ export default function Home() {
         </p>
 
         <p
-          className="mt-6 max-w-3xl mx-auto text-center text-pretty text-gray-300
+          className="mt-6 max-w-6xl mx-auto text-center text-pretty text-gray-300
                      text-base sm:text-lg md:text-xl lg:text-2xl
                      leading-relaxed md:leading-8 font-medium
                      px-4 sm:px-6 lg:px-8"
