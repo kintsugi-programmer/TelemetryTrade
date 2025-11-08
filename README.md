@@ -211,3 +211,6 @@ MIT License © 2025 TelemetryTrade
 - Integrated newsletter form with MailService + NewsletterService APIs
 - Stored subscribed user in mailUsers.json
 - Added .env to .gitignore for security
+- favicon with manifest
+- fonts --font-satoshi --font-rubik-80s
+- shadcn design system
