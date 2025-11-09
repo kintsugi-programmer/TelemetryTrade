@@ -114,10 +114,11 @@ const NavLeft = ({ setIsOpen }: { setIsOpen: Dispatch<SetStateAction<boolean>> }
       <FiMenu />
       
     </motionAnimation.button>
-
+    <Link href="/">
     <div className=" font-rubik text-2xl  ">
       Telemetry
     </div>
+    </Link>
     
 
 
