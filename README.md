@@ -163,7 +163,7 @@ MIT License © 2025 TelemetryTrade
 - Installed recharts for chart visualizations
 - Added lucide-react for icons
 - Installed tailwindcss-animate, class-variance-authority, clsx, and tailwind-merge for enhanced styling and utility support
-- feat(tokens): add Token Discovery table with CoinGecko data, null-safety, sparkline, and auto-refresh
+- Token Discovery table with CoinGecko data, null-safety, sparkline, and auto-refresh
   - WHY
     - Needed a compact crypto “discovery” table with real-time market data.
     - Existing UI had no polling, no graceful null handling, and no quick trend insight.
@@ -232,7 +232,7 @@ MIT License © 2025 TelemetryTrade
     - add SVG sparkline
     - add loading skeleton + error UI
     - style dark/light modes
-- feat(tokens): add currency switcher, sorting, filtering, density toggle, and interactive sparkline
+- currency switcher, sorting, filtering, density toggle, and interactive sparkline
   - Added currency selector (USD/INR) with dynamic price + compact formatting
   - Expanded API fetch to 100 assets; removed server revalidate, using no-store
   - Implemented live client-side search for name/symbol
@@ -249,7 +249,7 @@ MIT License © 2025 TelemetryTrade
   - Improved null/NaN safety across formatting
   - Introduced memoized filtering + sorting pipeline
   - Updated UI: sticky header controls, improved dark styling
-- feat(tokens): add full client-side pagination with page-size control and navigable footer
+- full client-side pagination with page-size control and navigable footer
   - Added pagination state: page + pageSize (25 | 50 | 100)
   - Computed derived values: totalItems, totalPages, pageClamped, startIdx, endIdx
   - Slice filtered dataset into pageData for rendering
@@ -261,18 +261,22 @@ MIT License © 2025 TelemetryTrade
   - Auto-resets to page 1 when query, sort, density, currency, or pageSize changes
   - Proper disabled states + aria-label/title for navigation buttons
   - Matches table styling (dark mode, borders, hover)
-- feat: add Gemini + charting deps and env config
+- Gemini + charting deps and env config
   - Installed @google/genai, react-apexcharts, apexcharts, zod
   - Added GEMINI_API_KEY and NODE_ENV to .env.local
-- feat: add Gemini-powered /api/crypto-chat with CoinGecko snapshot
+- Gemini-powered /api/crypto-chat with CoinGecko snapshot
   - Added POST handler with live market fetch
   - Validates env (GEMINI_API_KEY, COINGECKO_URL)
   - Reduces payload to top 20 fields for prompt
   - Generates concise trading response via gemini-2.0-flash
   - Returns structured JSON output
-- feat: add TelemetryAI CryptoChatbot UI
+- TelemetryAI CryptoChatbot UI
   - Added chat UI with model + user roles
   - Integrated POST /api/crypto-chat for responses
   - Added optimistic updates + scroll behavior
   - Includes loading state + Enter-to-send
+- TelemetryAI chat page UI
+- Added /chat page with marketing header + disclaimer
+- Integrated CryptoChatbot component layout
+- Responsive two-column design
 

@@ -1,4 +1,6 @@
 'use client'
+import SlideChatSidebar from "@/components/SlideChatSidebar"
+import { MessageSquare } from "lucide-react"
 
 import React, {
   useCallback,
@@ -271,6 +273,8 @@ const Sparkline: React.FC<{
 type SortKey = 'rank' | 'name' | 'price' | 'h1' | 'h24' | 'd7' | 'mcap' | 'vol' | 'supply'
 
 const Page: React.FC = () => {
+  const [chatOpen, setChatOpen] = useState(false)
+
   const [currency, setCurrency] = useState<Currency>('usd')
   const [tokens, setTokens] = useState<Token[]>([])
   const [loading, setLoading] = useState(true)
@@ -374,6 +378,8 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/10 bg-neutral-950/70 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/55">
+
+
         <div className="mx-auto max-w-7xl px-4">
 
           <div className="flex h-16 items-center justify-between gap-4">
@@ -434,6 +440,25 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                   Refresh
                 </button>
               </HoverCard>
+                    {/* <button
+  
+  className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm hover:bg-neutral-800/60 flex items-center gap-2"
+>
+  
+</button> */}
+<button
+  className="bg-yellow-950 text-yellow-400 border border-yellow-400 border-b-4 font-medium overflow-hidden relative px-4 py-1 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+  onClick={() => setChatOpen(true)}
+>
+  <span className="bg-yellow-400 shadow-yellow-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]" />
+
+  {/* icon + text inline */}
+  <span className="flex items-center gap-2">
+    <MessageSquare className="h-4 w-4" />
+    Chat
+  </span>
+</button>
+
             </div>
           </div>
         </div>
@@ -661,6 +686,8 @@ if (end - start + 1 < windowSize) {
             className="w-full rounded-xl border border-white/10 bg-neutral-900 px-3 py-2 text-sm outline-none placeholder:text-neutral-500"
           />
         </div>
+        <SlideChatSidebar open={chatOpen} onClose={() => setChatOpen(false)} />
+
       </main>
     </div>
   )

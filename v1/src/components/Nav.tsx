@@ -145,11 +145,11 @@ const NavLink = ({ text, links }: NavLinkProps) => (
       <span className="flex items-center h-[30px] text-zinc-400 transition-colors duration-200">
         {text}
       </span>
-      <span className="flex items-center h-[30px] text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-indigo-400">
+      <span className="flex items-center h-[30px] text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-400">
         {text}
       </span>
     </motionAnimation.div>
-    <span className="pointer-events-none absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-teal-500 to-indigo-500 transition-all duration-300 group-hover:w-full" />
+    <span className="pointer-events-none absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-teal-500 to-emerald-500 transition-all duration-300 group-hover:w-full" />
   </Link>
 );
 
