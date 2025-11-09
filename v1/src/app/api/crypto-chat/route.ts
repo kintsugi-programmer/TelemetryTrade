@@ -14,6 +14,23 @@ type CoinForPrompt = {
   price_change_percentage_7d_in_currency: number;
 };
 
+// Minimal shape of what we read from CoinGecko
+type CoinGeckoCoin = {
+  name: string;
+  symbol: string;
+  current_price: number;
+  market_cap: number;
+  price_change_percentage_24h: number;
+  price_change_percentage_1h_in_currency: number;
+  price_change_percentage_7d_in_currency: number;
+};
+
+// Minimal shape of Gemini response we actually use
+type GenAIPart = { text?: string };
+type GenAIContent = { parts?: GenAIPart[] };
+type GenAICandidate = { content?: GenAIContent };
+type GenAIResponse = { candidates?: GenAICandidate[] };
+
 export async function POST(req: Request) {
   try {
     const { message } = (await req.json()) as { message?: string };
@@ -45,7 +62,32 @@ export async function POST(req: Request) {
         { status: 502 }
       );
     }
-    const coins = (await cgRes.json()) as any[];
+
+    // Avoid `any[]`: parse as unknown, then narrow
+    const raw = (await cgRes.json()) as unknown;
+    if (!Array.isArray(raw)) {
+      return NextResponse.json(
+        { error: "Unexpected CoinGecko response shape" },
+        { status: 502 }
+      );
+    }
+    const coins: CoinGeckoCoin[] = raw.map((c) => ({
+      name: String((c as Record<string, unknown>).name ?? ""),
+      symbol: String((c as Record<string, unknown>).symbol ?? ""),
+      current_price: Number((c as Record<string, unknown>).current_price ?? 0),
+      market_cap: Number((c as Record<string, unknown>).market_cap ?? 0),
+      price_change_percentage_24h: Number(
+        (c as Record<string, unknown>).price_change_percentage_24h ?? 0
+      ),
+      price_change_percentage_1h_in_currency: Number(
+        (c as Record<string, unknown>)
+          .price_change_percentage_1h_in_currency ?? 0
+      ),
+      price_change_percentage_7d_in_currency: Number(
+        (c as Record<string, unknown>)
+          .price_change_percentage_7d_in_currency ?? 0
+      ),
+    }));
 
     const simplified: CoinForPrompt[] = coins.slice(0, 20).map((c) => ({
       name: c.name,
@@ -70,20 +112,23 @@ User Query: "${message}"
 `;
 
     const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-    const response = await genAI.models.generateContent({
+    const response = (await genAI.models.generateContent({
       model: "gemini-2.0-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
-    });
+    })) as unknown as GenAIResponse;
 
-    // Safely extract text
+    // Safely extract text without `any`
     const text =
       response.candidates?.[0]?.content?.parts
-        ?.map((p: any) => p?.text ?? "")
+        ?.map((p) => (typeof p?.text === "string" ? p.text : ""))
         .join("") ?? "I couldn't generate a response.";
 
     return NextResponse.json({ text });
-  } catch (err: any) {
-    console.error("Chat API error:", err);
+  } catch (err: unknown) {
+    // No `any` here; log safely
+    const msg =
+      err instanceof Error ? err.message : typeof err === "string" ? err : "";
+    console.error("Chat API error:", msg || err);
     return NextResponse.json(
       { error: "Unexpected server error." },
       { status: 500 }
