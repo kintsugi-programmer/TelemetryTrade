@@ -296,3 +296,11 @@ MIT License © 2025 TelemetryTrade
   - Add responsive fullscreen toggle (fixed inset-0) with ESC-style control
   - Light theme, daily interval, autosize, toolbar and legend visible
   - Improve UX with input icon, focus ring, and small-screen layout
+- dark-themed 7-day sparkline modal with USD/INR + stats
+  - Recharts ComposedChart with dual Y-axes (USD left, INR right), lines + subtle areas
+  - Memoized data shaping, min/max/avg + padded dynamic domains
+  - Currency-aware tooltip/legend and compact money formatting
+  - Responsive modal via portal with ESC-to-close, overlay click, and a11y roles
+  - Header chips for context; configurable token name/symbol/image hook
+  - Centralized USD→INR rate constant (keep in sync with app)
+  - Notes: tokenImageUrl prop is wired but not rendered yet; add an <img> for avatar if desired.
