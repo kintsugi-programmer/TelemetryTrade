@@ -1,6 +1,7 @@
 // app/page.tsx
 "use client";
 import React from "react";
+import Link from "next/link";
 import { WavyBackground } from "@/components/ui/wavy-background";
 // import { LightRays } from "@/components/ui/light-rays";
 import { Button1 } from "@/components/ui/button1";
@@ -54,9 +55,12 @@ export default function Home() {
           with strict performance, scalability, and accessibility principles in mind.
 
         </p>
+        <Link href="/discovery">
             <div className="grid place-content-center p-4">
               <Button1 />
             </div>
+            
+        </Link>
       </div>
       </WavyBackground>
     </div>
