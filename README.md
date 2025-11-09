@@ -1,16 +1,6 @@
-# 🚀 TelemetryTrade – High-Performance Token Trading Interface
-
+# 🚀 TelemetryTrade | High-Performance Token Trading Interface
+![alt text](TelemetryTrade.gif)
 TelemetryTrade is a modern, high-performance web trading interface designed to show real-time price movement of crypto tokens. Engineered Trade Token Discovery Table and built to meet the demanding standards of low-latency traders, the project is architected with strict performance, scalability, and accessibility principles in mind.
-
----
-
-## 🏢 Company
-
-**TelemetryTrade** is your take-home assessment for a frontend developer role in a high-speed trading environment. Focused on UX performance, real-time data, and pixel-perfect design, the app demonstrates your ability to deliver production-grade code with modern tools.
-
-**Inspired by** startups like **Axiom Trade** and **Eterna**, the goal is to build an institutional-grade trading UI in a limited-time window.
-
----
 
 ## ✨ Features
 
@@ -22,15 +12,10 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 - ✅ Performant rendering: no layout shifts, <100ms interactions, virtualized rows
 - ✅ Visual-regression test compatible (e.g., Percy, Chromatic)
 - ✅ Lighthouse ≥ 90 on both mobile and desktop
-
----
-
-## ⚠️ Downsides (Limitations)
-
-- ❌ Data is mocked (no real trading)
-- ❌ Not production-connected to live chain APIs
-- ❌ Charts (e.g. tradingview) are placeholders unless added as a bonus
-- ❌ WebSocket server currently runs locally (not yet deployed cross-server for Vercel)
+- ✅ Data is mocked (no real trading)
+- ✅ Not production-connected to live chain APIs
+- ✅ Charts (e.g. tradingview) are placeholders unless added as a bonus
+- ✅ WebSocket server currently runs locally (not yet deployed cross-server for Vercel)
 
 ---
 
@@ -57,40 +42,6 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 - **Architecture**: Atomic Design (Atoms → Molecules → Organisms → Templates)
 - **Styling**: Tailwind, utility-first, no inline styles
 - **Documentation**: README, code comments, clean commits
-
-
-```bash
-# Core Libraries to Install
-npm install @reduxjs/toolkit react-redux @tanstack/react-query axios socket.io-client @radix-ui/react-popover @radix-ui/react-tooltip tailwindcss @shadcn/ui class-variance-authority clsx framer-motion react-virtual
-````
-
----
-
-## 📦 Deliverables Overview
-
-| Deliverable          | Requirement                               |
-| -------------------- | ----------------------------------------- |
-| 📁 GitHub Repo       | Clean commit history, public repo link    |
-| 🌍 Vercel Deployment | Live running demo of app                  |
-| 🎥 YouTube Demo      | 1–2 min public walkthrough of features    |
-| 🛠️ README.md        | Architecture, setup steps, tech decisions |
-
-✅ All deliverables **required** for completion.
-
----
-
-## 🎬 YouTube Demo Guide
-
-Your demo video should include:
-
-1. App load → skeleton screens
-2. Table → hover effects + sorting + tabs
-3. Real-time price updates with transitions
-4. Mobile view at 320px
-5. Quick code walkthrough (optional)
-6. Deployed Vercel link in description
-
-Make it **public**, 1–2 min max.
 
 ---
 
@@ -168,17 +119,6 @@ npm run lint
 # Build for production
 npm run build
 ```
-
----
-
-## 📊 Performance Checklist
-
-* [ ] No layout shifts (CLS = 0)
-* [ ] First render < 1.2s on 3G
-* [ ] All interactions < 100ms
-* [ ] Lighthouse > 90 mobile/desktop
-* [ ] JS bundle < 200kb (unused removed)
-* [ ] WebSocket client reconnect on fail
 
 ---
 
