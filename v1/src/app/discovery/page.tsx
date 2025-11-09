@@ -1,17 +1,11 @@
-'use client'
+"use client"
 import SlideChatSidebar from "@/components/SlideChatSidebar"
 import { MessageSquare } from "lucide-react"
+import { ChartModal } from "@/components/ChartModal"
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  PropsWithChildren,
-  HTMLAttributes,
-} from 'react'
-import { createPortal } from 'react-dom'
+import type React from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type PropsWithChildren, type HTMLAttributes } from "react"
+import { createPortal } from "react-dom"
 
 /* Types */
 interface Token {
@@ -31,24 +25,24 @@ interface Token {
   sparkline_in_7d?: { price: number[] }
 }
 
-type Currency = 'usd' | 'inr'
+type Currency = "usd" | "inr"
 
 /* API */
 const fetchTokens = async (currency: Currency): Promise<Token[]> => {
   const res = await fetch(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en`,
-    { cache: 'no-store' }
+    { cache: "no-store" },
   )
-  if (!res.ok) throw new Error('Failed to fetch tokens')
+  if (!res.ok) throw new Error("Failed to fetch tokens")
   return res.json()
 }
 
 /* Utils */
-const CURRENCY_SYMBOL: Record<Currency, string> = { usd: '$', inr: '₹' }
+const CURRENCY_SYMBOL: Record<Currency, string> = { usd: "$", inr: "₹" }
 
 const formatCompact = (num?: number | null, cur?: Currency): string => {
-  if (num == null || Number.isNaN(num)) return '—'
-  const prefix = cur ? CURRENCY_SYMBOL[cur] : ''
+  if (num == null || Number.isNaN(num)) return "—"
+  const prefix = cur ? CURRENCY_SYMBOL[cur] : ""
   if (num >= 1e12) return `${prefix}${(num / 1e12).toFixed(2)}T`
   if (num >= 1e9) return `${prefix}${(num / 1e9).toFixed(2)}B`
   if (num >= 1e6) return `${prefix}${(num / 1e6).toFixed(2)}M`
@@ -56,15 +50,15 @@ const formatCompact = (num?: number | null, cur?: Currency): string => {
   return `${prefix}${num.toFixed(2)}`
 }
 
-const formatPrice = (price?: number | null, cur: Currency = 'usd'): string => {
-  if (price == null || Number.isNaN(price)) return '—'
+const formatPrice = (price?: number | null, cur: Currency = "usd"): string => {
+  if (price == null || Number.isNaN(price)) return "—"
   const prefix = CURRENCY_SYMBOL[cur]
   if (price < 1) return `${prefix}${price.toFixed(6)}`
-  return `${prefix}${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+  return `${prefix}${price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
 }
 
 const formatSupply = (supply?: number | null): string => {
-  if (supply == null || Number.isNaN(supply)) return '—'
+  if (supply == null || Number.isNaN(supply)) return "—"
   if (supply >= 1e12) return `${(supply / 1e12).toFixed(2)}T`
   if (supply >= 1e9) return `${(supply / 1e9).toFixed(2)}B`
   if (supply >= 1e6) return `${(supply / 1e6).toFixed(2)}M`
@@ -73,12 +67,12 @@ const formatSupply = (supply?: number | null): string => {
 }
 
 /* Icons */
-const ArrowUp = ({ className = '' }) => (
+const ArrowUp = ({ className = "" }) => (
   <svg viewBox="0 0 20 20" className={`h-3.5 w-3.5 ${className}`} aria-hidden="true">
     <path d="M10 4l6 6H4l6-6zm0 0v12" fill="currentColor" />
   </svg>
 )
-const ArrowDown = ({ className = '' }) => (
+const ArrowDown = ({ className = "" }) => (
   <svg viewBox="0 0 20 20" className={`h-3.5 w-3.5 ${className}`} aria-hidden="true">
     <path d="M10 16l-6-6h12l-6 6zm0 0V4" fill="currentColor" />
   </svg>
@@ -88,9 +82,7 @@ const ArrowDown = ({ className = '' }) => (
 const TooltipRoot: React.FC<PropsWithChildren> = ({ children }) => <>{children}</>
 
 type TooltipTriggerProps = PropsWithChildren<HTMLAttributes<HTMLSpanElement>>
-const TooltipTrigger: React.FC<TooltipTriggerProps> = ({ children, ...rest }) => (
-  <span {...rest}>{children}</span>
-)
+const TooltipTrigger: React.FC<TooltipTriggerProps> = ({ children, ...rest }) => <span {...rest}>{children}</span>
 
 interface TooltipContentProps extends PropsWithChildren {
   open: boolean
@@ -109,11 +101,11 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ open, anchorEl, childre
       })
     }
     update()
-    window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', update)
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", update)
     return () => {
-      window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', update)
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", update)
     }
   }, [open, anchorEl])
 
@@ -129,7 +121,7 @@ const TooltipContent: React.FC<TooltipContentProps> = ({ open, anchorEl, childre
       <style>{`@keyframes ttIn{from{opacity:.5; transform:translate(-50%,-110%) scale(.96)} to{opacity:1; transform:translate(-50%,-100%) scale(1)}}`}</style>
       {children}
     </div>,
-    document.body
+    document.body,
   )
 }
 
@@ -164,34 +156,41 @@ const HoverCard: React.FC<PropsWithChildren<{ content: React.ReactNode; delay?: 
 }
 
 /* Badge */
-type BadgeIntent = 'default' | 'success' | 'danger' | 'muted'
-const Badge: React.FC<PropsWithChildren<{ intent?: BadgeIntent }>> = ({ intent = 'default', children }) => {
+type BadgeIntent = "default" | "success" | "danger" | "muted"
+const Badge: React.FC<PropsWithChildren<{ intent?: BadgeIntent }>> = ({ intent = "default", children }) => {
   const map: Record<BadgeIntent, string> = {
-    default: 'bg-neutral-800 text-neutral-100 border-white/10',
-    success: 'bg-emerald-900/40 text-emerald-300 border-emerald-600/20',
-    danger: 'bg-rose-900/40 text-rose-300 border-rose-600/20',
-    muted: 'bg-neutral-800/60 text-neutral-400 border-white/10',
+    default: "bg-neutral-800 text-neutral-100 border-white/10",
+    success: "bg-emerald-900/40 text-emerald-300 border-emerald-600/20",
+    danger: "bg-rose-900/40 text-rose-300 border-rose-600/20",
+    muted: "bg-neutral-800/60 text-neutral-400 border-white/10",
   }
-  return <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs ${map[intent]}`}>{children}</span>
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs ${map[intent]}`}>
+      {children}
+    </span>
+  )
 }
 
 const PriceChangeBadge = ({ value }: { value: number | null }) => {
   if (value == null || Number.isNaN(value)) return <Badge intent="muted">—</Badge>
   const up = value >= 0
   return (
-    <Badge intent={up ? 'success' : 'danger'}>
+    <Badge intent={up ? "success" : "danger"}>
       {up ? <ArrowUp /> : <ArrowDown />}
-      {up ? '+' : ''}
+      {up ? "+" : ""}
       {value.toFixed(2)}%
     </Badge>
   )
 }
 
+
+
 /* Sparkline (with hover price tooltip) */
 const Sparkline: React.FC<{
   data?: number[]
   currency: Currency
-}> = ({ data, currency }) => {
+  onChartClick?: () => void
+}> = ({ data, currency, onChartClick }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [hover, setHover] = useState<{ x: number; y: number; v: number } | null>(null)
 
@@ -201,7 +200,7 @@ const Sparkline: React.FC<{
   const pad = 6
 
   const { path, area, lastUp, points } = useMemo(() => {
-    if (!series) return { path: '', area: '', lastUp: true, points: [] as { x: number; y: number; v: number }[] }
+    if (!series) return { path: "", area: "", lastUp: true, points: [] as { x: number; y: number; v: number }[] }
     const minV = Math.min(...series)
     const maxV = Math.max(...series)
     const range = maxV - minV || 1
@@ -210,7 +209,7 @@ const Sparkline: React.FC<{
       const y = h - ((v - minV) / range) * (h - pad * 2) - pad
       return { x, y, v }
     })
-    const p = pts.reduce((acc, pt, i) => (i ? `${acc} L ${pt.x} ${pt.y}` : `M ${pt.x} ${pt.y}`), '')
+    const p = pts.reduce((acc, pt, i) => (i ? `${acc} L ${pt.x} ${pt.y}` : `M ${pt.x} ${pt.y}`), "")
     const a = `${p} L ${w - pad} ${h - pad} L ${pad} ${h - pad} Z`
     const up = series[series.length - 1] >= series[0]
     return { path: p, area: a, lastUp: up, points: pts }
@@ -221,7 +220,7 @@ const Sparkline: React.FC<{
     const rect = (e.currentTarget as SVGSVGElement).getBoundingClientRect()
     const mx = e.clientX - rect.left
     let nearest = points[0]
-    let dmin = Infinity
+    let dmin = Number.POSITIVE_INFINITY
     for (const p of points) {
       const d = Math.abs(p.x - mx)
       if (d < dmin) {
@@ -234,8 +233,8 @@ const Sparkline: React.FC<{
 
   const onLeave = () => setHover(null)
 
-  const stroke = lastUp ? 'stroke-emerald-400' : 'stroke-rose-400'
-  const fill = lastUp ? 'fill-emerald-500/10' : 'fill-rose-500/10'
+  const stroke = lastUp ? "stroke-emerald-400" : "stroke-rose-400"
+  const fill = lastUp ? "fill-emerald-500/10" : "fill-rose-500/10"
 
   const PriceTooltip = () =>
     hover ? (
@@ -248,7 +247,7 @@ const Sparkline: React.FC<{
     ) : null
 
   return (
-    <div ref={containerRef} className="relative h-14 w-36">
+    <div ref={containerRef} className="relative h-14 w-36 cursor-pointer" onClick={onChartClick}>
       <svg
         viewBox={`0 0 ${w} ${h}`}
         className="absolute inset-0 h-full w-full"
@@ -270,41 +269,48 @@ const Sparkline: React.FC<{
 }
 
 /* Main Page */
-type SortKey = 'rank' | 'name' | 'price' | 'h1' | 'h24' | 'd7' | 'mcap' | 'vol' | 'supply'
+type SortKey = "rank" | "name" | "price" | "h1" | "h24" | "d7" | "mcap" | "vol" | "supply"
 
 const Page: React.FC = () => {
   const [chatOpen, setChatOpen] = useState(false)
 
-  const [currency, setCurrency] = useState<Currency>('usd')
+  const [currency, setCurrency] = useState<Currency>("usd")
   const [tokens, setTokens] = useState<Token[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<number | null>(null)
 
-  const [query, setQuery] = useState('')
-  const [density, setDensity] = useState<'comfortable' | 'compact'>('comfortable')
-  const [sortKey, setSortKey] = useState<SortKey>('rank')
-  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc')
+  const [query, setQuery] = useState("")
+  const [density, setDensity] = useState<"comfortable" | "compact">("comfortable")
+  const [sortKey, setSortKey] = useState<SortKey>("rank")
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc")
+  const openChartFor = (t: Token) => {
+  setSelectedToken(t)
+  setModalOpen(true)
+}
+
 
   // Pagination state
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<25 | 50 | 100>(25)
 
-const load = useCallback(async () => {
-  try {
-    setLoading(true)
-    setError(null)
-    const data = await fetchTokens(currency)
-    setTokens(data)
-    setLastUpdated(Date.now())
-  } catch (e: unknown) {
-    const err = e as { message?: string }
-    setError(err?.message ?? "Something went wrong")
-  } finally {
-    setLoading(false)
-  }
-}, [currency])
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedToken, setSelectedToken] = useState<Token | null>(null)
 
+  const load = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const data = await fetchTokens(currency)
+      setTokens(data)
+      setLastUpdated(Date.now())
+    } catch (e: unknown) {
+      const err = e as { message?: string }
+      setError(err?.message ?? "Something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }, [currency])
 
   useEffect(() => {
     load()
@@ -318,26 +324,35 @@ const load = useCallback(async () => {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     const base = q
-      ? tokens.filter(t => t.name.toLowerCase().includes(q) || t.symbol.toLowerCase().includes(q))
+      ? tokens.filter((t) => t.name.toLowerCase().includes(q) || t.symbol.toLowerCase().includes(q))
       : tokens
 
-const safe = (v: number | null | undefined): number => v == null || Number.isNaN(v) ? -Infinity : v
+    const safe = (v: number | null | undefined): number => (v == null || Number.isNaN(v) ? Number.NEGATIVE_INFINITY : v)
     const cmp = (a: Token, b: Token): number => {
       switch (sortKey) {
-        case 'rank': return safe(a.market_cap_rank) - safe(b.market_cap_rank)
-        case 'name': return a.name.localeCompare(b.name)
-        case 'price': return safe(a.current_price) - safe(b.current_price)
-        case 'h1': return safe(a.price_change_percentage_1h_in_currency) - safe(b.price_change_percentage_1h_in_currency)
-        case 'h24': return safe(a.price_change_percentage_24h_in_currency) - safe(b.price_change_percentage_24h_in_currency)
-        case 'd7': return safe(a.price_change_percentage_7d_in_currency) - safe(b.price_change_percentage_7d_in_currency)
-        case 'supply': return safe(a.circulating_supply) - safe(b.circulating_supply)
-        case 'mcap': return safe(a.market_cap) - safe(b.market_cap)
-        case 'vol': return safe(a.total_volume) - safe(b.total_volume)
+        case "rank":
+          return safe(a.market_cap_rank) - safe(b.market_cap_rank)
+        case "name":
+          return a.name.localeCompare(b.name)
+        case "price":
+          return safe(a.current_price) - safe(b.current_price)
+        case "h1":
+          return safe(a.price_change_percentage_1h_in_currency) - safe(b.price_change_percentage_1h_in_currency)
+        case "h24":
+          return safe(a.price_change_percentage_24h_in_currency) - safe(b.price_change_percentage_24h_in_currency)
+        case "d7":
+          return safe(a.price_change_percentage_7d_in_currency) - safe(b.price_change_percentage_7d_in_currency)
+        case "supply":
+          return safe(a.circulating_supply) - safe(b.circulating_supply)
+        case "mcap":
+          return safe(a.market_cap) - safe(b.market_cap)
+        case "vol":
+          return safe(a.total_volume) - safe(b.total_volume)
       }
     }
     const sorted = [...base].sort((a, b) => {
       const v = cmp(a, b)
-      return sortDir === 'asc' ? v : -v
+      return sortDir === "asc" ? v : -v
     })
     return sorted
   }, [tokens, query, sortKey, sortDir])
@@ -355,15 +370,18 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
     setPage(1)
   }, [query, sortKey, sortDir, density, currency, pageSize])
 
-  const densityRow = density === 'compact' ? 'py-2' : 'py-4'
+  const densityRow = density === "compact" ? "py-2" : "py-4"
 
   const HeaderCell: React.FC<PropsWithChildren<{ k: SortKey }>> = ({ k, children }) => (
     <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
       <button
         className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-0.5 hover:bg-white/5 focus:outline-none"
         onClick={() => {
-          if (sortKey === k) setSortDir(d => (d === 'asc' ? 'desc' : 'asc'))
-          else { setSortKey(k); setSortDir(k === 'rank' ? 'asc' : 'desc') }
+          if (sortKey === k) setSortDir((d) => (d === "asc" ? "desc" : "asc"))
+          else {
+            setSortKey(k)
+            setSortDir(k === "rank" ? "asc" : "desc")
+          }
         }}
       >
         <span>{children}</span>
@@ -378,20 +396,14 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
     <div className="min-h-screen bg-neutral-950 text-neutral-100">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/10 bg-neutral-950/70 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/55">
-
-
         <div className="mx-auto max-w-7xl px-4">
-
           <div className="flex h-16 items-center justify-between gap-4">
-            
             <div className="flex items-center gap-3">
-
               <h1
                 className="font-rubik 
                            sm:text-2xl md:text-4xl lg:text-4xl text-2xl
                            leading-[0.9] text-white hidden sm:block"
               >
-                
                 Market<span className=""></span>
               </h1>
               <div className="flex flex-col leading-tight hidden sm:block">
@@ -399,19 +411,22 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                 <h1 className="text-lg font-semibold tracking-tight">Token Discovery</h1>
               </div>
             </div>
-            
 
             <div className="flex items-center gap-2">
               <div className="hidden md:flex items-center gap-2 rounded-xl border border-white/10 bg-neutral-900 px-3 py-2">
                 <input
                   value={query}
-                  onChange={e => setQuery(e.target.value)}
+                  onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search by name or symbol…"
                   className="w-64 bg-transparent text-sm outline-none placeholder:text-neutral-500"
                 />
               </div>
 
-              <HoverCard content={<div className="text-xs text-neutral-300">Choose pricing currency. Data refetches instantly.</div>}>
+              <HoverCard
+                content={
+                  <div className="text-xs text-neutral-300">Choose pricing currency. Data refetches instantly.</div>
+                }
+              >
                 <select
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value as Currency)}
@@ -425,10 +440,10 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
 
               <HoverCard content={<div className="text-xs text-neutral-300">Row density</div>}>
                 <button
-                  onClick={() => setDensity(d => (d === 'compact' ? 'comfortable' : 'compact'))}
+                  onClick={() => setDensity((d) => (d === "compact" ? "comfortable" : "compact"))}
                   className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm hover:bg-neutral-800/60"
                 >
-                  {density === 'compact' ? 'Compact' : 'Comfort'}
+                  {density === "compact" ? "Compact" : "Comfort"}
                 </button>
               </HoverCard>
 
@@ -440,25 +455,18 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                   Refresh
                 </button>
               </HoverCard>
-                    {/* <button
-  
-  className="rounded-lg border border-white/10 bg-neutral-900 px-3 py-2 text-sm hover:bg-neutral-800/60 flex items-center gap-2"
->
-  
-</button> */}
-<button
-  className="bg-yellow-950 text-yellow-400 border border-yellow-400 border-b-4 font-medium overflow-hidden relative px-4 py-1 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
-  onClick={() => setChatOpen(true)}
->
-  <span className="bg-yellow-400 shadow-yellow-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]" />
 
-  {/* icon + text inline */}
-  <span className="flex items-center gap-2">
-    <MessageSquare className="h-4 w-4" />
-    Chat
-  </span>
-</button>
+              <button
+                className="bg-yellow-950 text-yellow-400 border border-yellow-400 border-b-4 font-medium overflow-hidden relative px-4 py-1 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+                onClick={() => setChatOpen(true)}
+              >
+                <span className="bg-yellow-400 shadow-yellow-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]" />
 
+                <span className="flex items-center gap-2">
+                  <MessageSquare className="h-4 w-4" />
+                  Chat
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -469,9 +477,9 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
         {/* Status */}
         <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-neutral-400">
           <Badge intent="muted">Live • 60s auto-refresh</Badge>
-          <Badge intent="muted">Last update: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : '—'}</Badge>
+          <Badge intent="muted">Last update: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</Badge>
           <Badge intent="default">
-            {totalItems === 0 ? '0 assets' : `Showing ${startIdx + 1}–${endIdx} of ${totalItems}`}
+            {totalItems === 0 ? "0 assets" : `Showing ${startIdx + 1}–${endIdx} of ${totalItems}`}
           </Badge>
         </div>
 
@@ -494,7 +502,9 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                     <HeaderCell k="h1">1h %</HeaderCell>
                     <HeaderCell k="h24">24h %</HeaderCell>
                     <HeaderCell k="d7">7d %</HeaderCell>
-                    <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">Last 7 Days</th>
+                    <th className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+                      Last 7 Days
+                    </th>
                     <HeaderCell k="mcap">Market Cap</HeaderCell>
                     <HeaderCell k="vol">Volume (24h)</HeaderCell>
                     <HeaderCell k="supply">Circulating Supply</HeaderCell>
@@ -512,13 +522,27 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                         </tr>
                       ))
                     : pageData.map((t) => (
-                        <tr key={t.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
-                          <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>{t.market_cap_rank ?? '—'}</td>
+                        <tr
+  key={t.id}
+  className="group border-b border-white/5 transition-colors hover:bg-white/5 cursor-pointer focus-within:bg-white/5"
+  onClick={() => openChartFor(t)}
+  onKeyDown={(e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      openChartFor(t)
+    }
+  }}
+  tabIndex={0}
+  role="button"
+  title="Click to open 7-day chart"
+  aria-label={`Open 7-day chart for ${t.name}`}
+>
+                          <td className={`px-4 ${densityRow} text-sm text-neutral-400`}>{t.market_cap_rank ?? "—"}</td>
 
                           <td className={`px-4 ${densityRow}`}>
                             <div className="flex items-center gap-3">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={t.image} alt={t.name} className="h-8 w-8 rounded-full" />
+                              <img src={t.image || "/placeholder.svg"} alt={t.name} className="h-8 w-8 rounded-full" />
                               <div>
                                 <div className="font-semibold">{t.name}</div>
                                 <div className="text-[10px] uppercase text-neutral-400">{t.symbol}</div>
@@ -534,12 +558,25 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                             </HoverCard>
                           </td>
 
-                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_1h_in_currency} /></td>
-                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_24h_in_currency} /></td>
-                          <td className={`px-4 ${densityRow}`}><PriceChangeBadge value={t.price_change_percentage_7d_in_currency} /></td>
+                          <td className={`px-4 ${densityRow}`}>
+                            <PriceChangeBadge value={t.price_change_percentage_1h_in_currency} />
+                          </td>
+                          <td className={`px-4 ${densityRow}`}>
+                            <PriceChangeBadge value={t.price_change_percentage_24h_in_currency} />
+                          </td>
+                          <td className={`px-4 ${densityRow}`}>
+                            <PriceChangeBadge value={t.price_change_percentage_7d_in_currency} />
+                          </td>
 
                           <td className={`px-4 ${densityRow}`}>
-                            <Sparkline data={t.sparkline_in_7d?.price} currency={currency} />
+                            <Sparkline
+                              data={t.sparkline_in_7d?.price}
+                              currency={currency}
+                              onChartClick={() => {
+                                setSelectedToken(t)
+                                setModalOpen(true)
+                              }}
+                            />
                           </td>
 
                           <td className={`px-4 ${densityRow} text-sm font-medium`}>
@@ -591,7 +628,7 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                     </button>
                     <button
                       className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={pageClamped === 1}
                       aria-label="Previous page"
                       title="Previous page"
@@ -603,12 +640,12 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
                     {(() => {
                       const pages: number[] = []
                       const windowSize = 5
-let start = Math.max(1, pageClamped - Math.floor(windowSize / 2))
-const end = Math.min(totalPages, start + windowSize - 1)
+                      let start = Math.max(1, pageClamped - Math.floor(windowSize / 2))
+                      const end = Math.min(totalPages, start + windowSize - 1)
 
-if (end - start + 1 < windowSize) {
-  start = Math.max(1, end - windowSize + 1)
-}
+                      if (end - start + 1 < windowSize) {
+                        start = Math.max(1, end - windowSize + 1)
+                      }
 
                       for (let i = start; i <= end; i++) pages.push(i)
                       return (
@@ -624,13 +661,13 @@ if (end - start + 1 < windowSize) {
                               {start > 2 && <span className="px-1 text-neutral-500">…</span>}
                             </>
                           )}
-                          {pages.map(n => (
+                          {pages.map((n) => (
                             <button
                               key={n}
                               className={`rounded-md border px-2 py-1 text-xs ${
                                 n === pageClamped
-                                  ? 'border-emerald-500/30 bg-emerald-500/10'
-                                  : 'border-white/10 bg-neutral-900 hover:bg-neutral-800/60'
+                                  ? "border-emerald-500/30 bg-emerald-500/10"
+                                  : "border-white/10 bg-neutral-900 hover:bg-neutral-800/60"
                               }`}
                               onClick={() => setPage(n)}
                             >
@@ -654,7 +691,7 @@ if (end - start + 1 < windowSize) {
 
                     <button
                       className="rounded-md border border-white/10 bg-neutral-900 px-2 py-1 text-xs disabled:opacity-40 hover:bg-neutral-800/60"
-                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                      onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                       disabled={pageClamped === totalPages}
                       aria-label="Next page"
                       title="Next page"
@@ -681,13 +718,25 @@ if (end - start + 1 < windowSize) {
         <div className="mt-6 md:hidden">
           <input
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             placeholder="Search assets…"
             className="w-full rounded-xl border border-white/10 bg-neutral-900 px-3 py-2 text-sm outline-none placeholder:text-neutral-500"
           />
         </div>
-        <SlideChatSidebar open={chatOpen} onClose={() => setChatOpen(false)} />
 
+        <ChartModal
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(false)
+            setSelectedToken(null)
+          }}
+          tokenName={selectedToken?.name ?? ""}
+          tokenSymbol={selectedToken?.symbol ?? ""}
+          priceData={selectedToken?.sparkline_in_7d?.price}
+          currency={currency}
+        />
+
+        <SlideChatSidebar open={chatOpen} onClose={() => setChatOpen(false)} />
       </main>
     </div>
   )
