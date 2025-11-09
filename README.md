@@ -4,18 +4,115 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 
 ## ✨ Features
 
-- ✅ Pixel-perfect recreation of Axiom Trade's token discovery table (≤ 2px diff)
-- ✅ Fully responsive down to 320px width with mobile-first optimizations
-- ✅ Real-time WebSocket price updates and animated row deltas (smooth green/red transitions)
-- ✅ Sortable, filterable, and dynamic token table with live hover effects and modals
-- ✅ Loading states including skeleton, shimmer, and progressive loading
-- ✅ Performant rendering: no layout shifts, <100ms interactions, virtualized rows
-- ✅ Visual-regression test compatible (e.g., Percy, Chromatic)
-- ✅ Lighthouse ≥ 90 on both mobile and desktop
-- ✅ Data is mocked (no real trading)
-- ✅ Not production-connected to live chain APIs
-- ✅ Charts (e.g. tradingview) are placeholders unless added as a bonus
-- ✅ WebSocket server currently runs locally (not yet deployed cross-server for Vercel)
+* Avoided Next.js 15 due to React 19 conflicts; using stable Next.js 14
+* Added TypeScript, ESLint, TailwindCSS, and `src/` directory structure
+* Implemented App Router with `@/*` alias support
+* Added delayed loader for improved UX
+* Installed dependencies: `react-icons`, `framer-motion`
+* Built responsive sticky navbar using `navLinks.json`
+* Created interactive responsive footer using `footLinks.json`
+* Integrated newsletter form with MailService + NewsletterService APIs
+* Stored subscribed users in `mailUsers.json`
+* `.env` added to `.gitignore` for security
+* Added favicon and web manifest
+* Added custom fonts: `--font-satoshi`, `--font-rubik-80s`
+* Integrated shadcn/ui design system
+* Implemented Skeleton Loading UI + Shimmer state
+* Built responsive Hero Section
+* Added Clerk secure multi-auth (email + wallets)
+* Responsive Navbar with Mobile Menu
+* Responsive Footer with Newsletter Section
+* Installed `@tanstack/react-query` for data fetching and caching
+* Installed `recharts` for visual charts
+* Added `lucide-react` for modern icons
+* Installed `tailwindcss-animate`, `class-variance-authority`, `clsx`, `tailwind-merge`
+* Built Token Discovery table with CoinGecko data, sparkline, and auto-refresh
+* Added null-safe formatters and error UI in Token Table
+* Used custom SVG sparkline with zero chart dependencies
+* Optimized sparkline with `useMemo` and pure functions
+* Added sorting, searching, filtering, and pagination to the Token Table
+* Added currency switcher (USD/INR) with formatting
+* Added table density toggle (compact/comfortable)
+* Added pagination controls and footer with range display
+* Added manual Refresh button and last update timestamp
+* Implemented advanced sparkline with hover, tooltip, and area fill
+* Added client-side Gemini chat API integration
+* Built Gemini-powered Crypto Chatbot UI
+* Added marketing header and disclaimers in Chat UI
+* Created responsive Contact Us page with API integration and validation
+* Added dark-themed global 404 page with quick navigation links
+* Integrated TradingView-based CryptoChart with search and fullscreen
+* Implemented 7-day sparkline modal using Recharts with stats and currency switch
+* Built dark-themed TradingView candlestick widget with quick-pick and fullscreen
+* Added dark-themed Terms & Conditions page with scrollspy navigation
+* Enabled sticky header and active anchor highlighting for Terms page
+* Ensured no metadata export in client Terms file to avoid Next.js issue
+* Added links to `/privacy`, `/disclosures`, and legal email in Terms page
+* Ensured dark/light mode support and semantic markup across the app
+* Added code comments and clear changelog entries for traceability
+* Modern Market Dashboard with real-time updates API
+* Fully responsive down to 320px width
+* Animated row deltas (green/red transitions)
+* Sortable and filterable token table
+* Hover effects and click-based modals
+* Skeleton and shimmer loading states
+* Progressive data loading
+* Virtualized table rows (10k+ items with no lag)
+* Lighthouse score ≥ 90 on mobile and desktop
+* Connected to real trading APIs
+* Optional charts powered by TradingView
+* Next.js 14 with TypeScript (strict mode)
+* TailwindCSS for styling
+* Atomic Design folder structure
+* Redux Toolkit and React Query for state and data management
+* shadcn/ui + Headless UI components
+* Jest + React Testing Library setup
+* ESLint and Prettier configured
+* SEO-friendly and accessible
+* Smooth transitions with Framer Motion
+* Token preview charts with Recharts
+* Search and deep-link-based filters
+* Full keyboard navigation support
+* User-configurable columns
+* Mail subscription API with MailUser storage
+* Responsive sticky navbar and footer
+* Custom 404 page with design consistency
+* TradingView candlestick and line chart integrations
+* Fully typed Contact form with backend API
+* AI chatbot powered by Google Gemini
+* Chat UI with optimistic updates and streaming
+* Dark-themed Terms & Conditions page
+* Scrollspy and anchor-based navigation
+* Clerk-based multi-auth with wallet + email
+* Custom SVG sparkline charts
+* Skeleton UI for data fetch
+* Currency switcher (USD/INR)
+* Live client-side pagination with size controls
+* Page number windowing with ellipsis
+* Detailed price statistics in chart modals
+* Toggleable table density (compact/comfortable)
+* Manual and automatic refresh with status badges
+* GitHub clean commits and deployment to Vercel
+* Optimized folder structure under `/src`
+* Web manifest, favicon, and custom Satoshi font
+* Error handling panel for API failures
+* Loading indicators for async components
+* Reusable Button, Card, and Input components
+* Utilities with `clsx` and `tailwind-merge`
+* Null-safe formatting utilities
+* Responsive footer with live newsletter form
+* Global `.env` handling with `.gitignore`
+* shadcn-based cards, modals, scroll areas
+* Global provider setup for state and style
+* Multi-column responsive grid layouts
+* Placeholder charts with prompt to toggle to live mode
+* Future scope: wallet management and deeper live APIs
+* Visual regression-compatible markup, test-ready and scalable
+
+---
+
+## Lighthouse Report
+![alt text](image.png)
 
 ---
 
@@ -26,7 +123,7 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 - 🔄 Token state persisted via Zustand or URL params
 - ♿ Full keyboard navigation & ARIA roles for accessibility
 - 🔍 Search & deep-link filters, user-configurable columns
-- 🤖 Deployed WebSocket server (e.g. Fly.io or Railway)
+- 🤖 Deployed on Vercel Optimised
 
 ---
 
@@ -45,7 +142,7 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 
 ---
 
-## 🛠️ Project Roadmap (24–48 Hour Scope)
+## 🛠️ Project Roadmap (24Hours Scope)
 
 ```plaintext
 📍 PHASE 1 – Setup & Architecture
@@ -82,21 +179,82 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 ## 📁 Folder Structure (Atomic Architecture)
 
 ```plaintext
-src/
-├── app/
-│   ├── page.tsx
-│   └── layout.tsx
-├── components/
-│   ├── atoms/         # Buttons, badges, icons
-│   ├── molecules/     # Rows, modals, lists
-│   ├── organisms/     # Token table, filters
-├── features/
-│   ├── token-table/   # Redux slice, hooks
-├── hooks/             # Custom queries, WS hooks
-├── lib/               # Utils, constants, API
-├── store/             # Redux config
-├── types/             # TypeScript types
-└── styles/            # Global styles
+TelemetryTrade/
+├── .env
+├── .eslintrc.json
+├── .gitignore
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+├── tailwind.config.ts
+├── tsconfig.json
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── crypto-chat/
+│   │   │   │   └── route.ts
+│   │   │   ├── sendEmail/
+│   │   │   │   └── route.js
+│   │   │   └── subscribe/
+│   │   │       └── route.js
+│   │   ├── ai/
+│   │   │   └── page.tsx
+│   │   ├── candlestick/
+│   │   │   └── page.tsx
+│   │   ├── contact/
+│   │   │   └── page.tsx
+│   │   ├── discovery/
+│   │   │   └── page.tsx
+│   │   ├── terms/
+│   │   │   └── page.tsx
+│   │   ├── fonts/
+│   │   │   ├── Satoshi-Bold.woff2
+│   │   │   ├── Satoshi-Medium.woff2
+│   │   │   ├── Satoshi-Regular.woff2
+│   │   │   └── Satoshi-Variable.woff2
+│   │   ├── icon0.svg
+│   │   ├── icon1.png
+│   │   ├── layout.tsx
+│   │   ├── loading.tsx
+│   │   ├── manifest.json
+│   │   ├── not-found.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   ├── button1.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── light-rays.tsx
+│   │   │   ├── scroll-area.tsx
+│   │   │   ├── skeleton.tsx
+│   │   │   └── wavy-background.tsx
+│   │   ├── ChartModal.tsx
+│   │   ├── CryptoChatbot.tsx
+│   │   ├── CyptoChart.tsx
+│   │   ├── DelayedLoader.tsx
+│   │   ├── Foot.tsx
+│   │   ├── Nav.tsx
+│   │   └── SlideChatSidebar.tsx
+│   ├── data/
+│   │   ├── footLinks.json
+│   │   ├── mailUsers.json
+│   │   └── navLinks.json
+│   ├── lib/
+│   │   └── utils.ts
+│   ├── middleware.ts
+│   └── provider.tsx
+├── public/
+│   ├── Images/
+│   │   └── Logo.png
+│   ├── apple-icon.png
+│   ├── favicon.ico
+│   ├── web-app-manifest-192x192.png
+│   └── web-app-manifest-512x512.png
 ```
 
 ---
@@ -132,7 +290,7 @@ Clone this repository, install dependencies, and start building! For bug reports
 
 MIT License © 2025 TelemetryTrade
 
-# Notes
+# Developer Notes
 - Avoid Next.js 15; its forced jump to React 19 breaks half the ecosystem with dependency conflicts, while Next.js 14 stays rock-solid and production-safe.
   - or if wanna upgrade, use this overrides in config
     ```js
