@@ -304,3 +304,12 @@ MIT License © 2025 TelemetryTrade
   - Header chips for context; configurable token name/symbol/image hook
   - Centralized USD→INR rate constant (keep in sync with app)
   - Notes: tokenImageUrl prop is wired but not rendered yet; add an <img> for avatar if desired.
+- dark-themed TradingView candlestick widget w/ search & fullscreen
+  - Lazy-load tv.js once; guard if already on window.TradingView
+  - Manage widget lifecycle via ref; remove before re-init; cleanup on unmount
+  - Dark UI polish: neutral-900/800 surfaces, emerald accents, custom toolbar_bg
+  - Set backgroundColor on widget and autosize to container
+  - Symbol search with USD auto-suffix + quick-pick chips (BTC/ETH/BNB/SOL/ADA/XRP/DOT/AVAX)
+  - Fullscreen toggle (fixed inset-0) with responsive chart height
+  - Header copy + early-stage notice; improved focus styles
+  - Notes: consider debouncing search and persisting last symbol in localStorage.
