@@ -261,4 +261,17 @@ MIT License © 2025 TelemetryTrade
   - Auto-resets to page 1 when query, sort, density, currency, or pageSize changes
   - Proper disabled states + aria-label/title for navigation buttons
   - Matches table styling (dark mode, borders, hover)
-
+- feat: add Gemini + charting deps and env config
+  - Installed @google/genai, react-apexcharts, apexcharts, zod
+  - Added GEMINI_API_KEY and NODE_ENV to .env.local
+- feat: add market API route using CoinGecko
+  - Added /api/market endpoint to fetch token market data
+  - Supports vs + per_page query params
+  - Returns sparkline + price change metrics
+  - Handles upstream + internal error responses
+- feat: add Gemini chatbot API with market snapshot context
+  - Added /api/chatbot POST endpoint
+  - Fetches market snapshot from /api/market with reduced payload
+  - Uses Gemini (gemini-2.0-flash) with structured system prompt
+  - Includes balanced trading guidance + HTML table support
+  - Reuses TokenMarket + selective field extraction
