@@ -1,7 +1,11 @@
 "use client";
 
 import { Maximize2, Minimize2, Search } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+// ---- Minimal TradingView typings so TS is happy ----
+type TVWidget = { remove: () => void };
+type TVGlobal = { widget: new (config: Record<string, unknown>) => TVWidget };
 
 // Popular cryptocurrency symbols for easy access
 const POPULAR_CRYPTOS = [
@@ -16,59 +20,88 @@ const POPULAR_CRYPTOS = [
 ];
 
 export default function CryptoChart() {
-  // State management
+  // State
   const [currentSymbol, setCurrentSymbol] = useState("BTCUSD");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
-  // Refs for DOM elements
+  // Refs
   const chartContainerRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const widgetRef = useRef<any>(null);
+  const widgetRef = useRef<TVWidget | null>(null);
 
-  // Load TradingView script only once
+  // A stable, unique container id (so container_id is always valid)
+  const containerIdRef = useRef<string>(
+    `tv-chart-${Math.random().toString(36).slice(2)}`
+  );
+
+  // Load tv.js once
   useEffect(() => {
-    // Check if script is already loaded
-    if (window.TradingView) {
+    // Already present?
+    const hasTVGlobal =
+      typeof window !== "undefined" &&
+      (window as unknown as { TradingView?: TVGlobal }).TradingView;
+
+    if (hasTVGlobal) {
       setIsScriptLoaded(true);
       return;
     }
 
-    // Create and load the TradingView script
+    // Avoid adding multiple script tags
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[src="https://s3.tradingview.com/tv.js"]'
+    );
+    if (existing) {
+      if ((existing as any)._tvLoaded) {
+        setIsScriptLoaded(true);
+      } else {
+        existing.addEventListener("load", () => setIsScriptLoaded(true), {
+          once: true,
+        });
+      }
+      return;
+    }
+
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/tv.js";
     script.async = true;
-    script.onload = () => {
-      setIsScriptLoaded(true);
-    };
+    // Mark when loaded
+    script.addEventListener(
+      "load",
+      () => {
+        (script as any)._tvLoaded = true;
+        setIsScriptLoaded(true);
+      },
+      { once: true }
+    );
     document.head.appendChild(script);
 
-    // Cleanup function
-    return () => {
-      // Only remove if we added it
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
+    // Do not remove the script on unmount (other components may use it)
   }, []);
 
-  // Initialize or update the TradingView widget
+  // Create / update widget whenever script loads or symbol changes
   useEffect(() => {
     if (!isScriptLoaded || !chartContainerRef.current) return;
 
-    // Clear previous widget if it exists
+    // Get the global safely, bail if still missing
+    const TV =
+      (window as unknown as { TradingView?: TVGlobal }).TradingView;
+    if (!TV) return;
+
+    // Tear down previous
     if (widgetRef.current) {
       widgetRef.current.remove();
+      widgetRef.current = null;
     }
-    // Clear the container
+
+    // Ensure container is clean
     chartContainerRef.current.innerHTML = "";
 
-    // Create new widget
-    widgetRef.current = new window.TradingView.widget({
+    // Create widget
+    widgetRef.current = new TV.widget({
       autosize: true,
       symbol: currentSymbol,
-      container_id: chartContainerRef.current.id,
+      container_id: containerIdRef.current,
       interval: "1D",
       timezone: "Etc/UTC",
       theme: "light",
@@ -81,7 +114,7 @@ export default function CryptoChart() {
       save_image: false,
     });
 
-    // Cleanup function
+    // Cleanup on deps change/unmount
     return () => {
       if (widgetRef.current) {
         widgetRef.current.remove();
@@ -90,28 +123,16 @@ export default function CryptoChart() {
     };
   }, [isScriptLoaded, currentSymbol]);
 
-  // Handle custom search
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
-      // Ensure the symbol ends with USD for crypto pairs
-      const symbol = searchTerm.toUpperCase().endsWith("USD")
-        ? searchTerm.toUpperCase()
-        : searchTerm.toUpperCase() + "USD";
-      handleSymbolChange(symbol);
-    }
-  };
-
-  // Handle symbol change
-  const handleSymbolChange = (symbol: string) => {
-    setCurrentSymbol(symbol.toUpperCase());
+    if (!searchTerm.trim()) return;
+    const s = searchTerm.toUpperCase();
+    const symbol = s.endsWith("USD") ? s : `${s}USD`;
+    setCurrentSymbol(symbol);
     setSearchTerm("");
   };
 
-  // Toggle fullscreen mode
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
+  const toggleFullscreen = () => setIsFullscreen((v) => !v);
 
   return (
     <div
@@ -119,29 +140,24 @@ export default function CryptoChart() {
         isFullscreen ? "fixed inset-0 z-50 rounded-none" : "relative"
       }`}
     >
-      {/* Header with controls */}
+      {/* Header */}
       <div className="bg-gray-100 p-4 border-b">
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-          {/* Current symbol display */}
           <div className="flex items-center gap-2">
             <h2 className="text-lg font-semibold text-gray-800">
               {currentSymbol}
             </h2>
             <span className="text-sm text-gray-500">
-              {POPULAR_CRYPTOS.find((crypto) => crypto.symbol === currentSymbol)
-                ?.name || "Cryptocurrency"}
+              {POPULAR_CRYPTOS.find((c) => c.symbol === currentSymbol)?.name ??
+                "Cryptocurrency"}
             </span>
           </div>
 
-          {/* Controls */}
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            {/* Search form */}
-            <form
-              onSubmit={handleSearchSubmit}
-              className="flex items-center gap-2"
-            >
+            {/* Search */}
+            <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
                   type="text"
                   placeholder="Enter crypto symbol"
@@ -158,7 +174,7 @@ export default function CryptoChart() {
               </button>
             </form>
 
-            {/* Fullscreen toggle */}
+            {/* Fullscreen */}
             <button
               onClick={toggleFullscreen}
               className="flex items-center gap-2 px-3 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors text-sm"
@@ -178,12 +194,12 @@ export default function CryptoChart() {
           </div>
         </div>
 
-        {/* Popular crypto buttons */}
+        {/* Quick-pick symbols */}
         <div className="flex flex-wrap gap-2 mt-4">
           {POPULAR_CRYPTOS.map((crypto) => (
             <button
               key={crypto.symbol}
-              onClick={() => handleSymbolChange(crypto.symbol)}
+              onClick={() => setCurrentSymbol(crypto.symbol)}
               className={`px-3 py-1 rounded-full text-sm transition-colors ${
                 currentSymbol === crypto.symbol
                   ? "bg-blue-500 text-white"
@@ -204,7 +220,7 @@ export default function CryptoChart() {
       >
         <div
           ref={chartContainerRef}
-          id="tradingview-chart"
+          id={containerIdRef.current}
           className="w-full h-full"
         />
       </div>
