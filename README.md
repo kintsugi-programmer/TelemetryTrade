@@ -276,7 +276,12 @@ MIT License © 2025 TelemetryTrade
   - Added optimistic updates + scroll behavior
   - Includes loading state + Enter-to-send
 - TelemetryAI chat page UI
-- Added /chat page with marketing header + disclaimer
-- Integrated CryptoChatbot component layout
-- Responsive two-column design
+  - Added /chat page with marketing header + disclaimer
+  - Integrated CryptoChatbot component layout
+  - Responsive two-column design
+- Responsive Contact Us page with form validation and API integration
+  - Implement two-column responsive layout (stacked on mobile)
+  - Add fully typed input and textarea components
+  - Connect form to /api/sendEmail endpoint using fetch
+  - Include loading state and success/error message handling
 

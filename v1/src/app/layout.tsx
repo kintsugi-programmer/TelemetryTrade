@@ -52,9 +52,7 @@ export default function RootLayout({
       <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
       <body className={`${satoshi.variable} ${rubik80s.variable} bg-[#222222] text-white antialiased`}>
 
-        <div className="sticky top-0 z-50  shadow-sm">
-    <Nav />
-  </div>
+<Nav />
 
         <DelayedLoader>
           {children}

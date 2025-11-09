@@ -389,7 +389,7 @@ const safe = (v: number | null | undefined): number => v == null || Number.isNaN
               <h1
                 className="font-rubik 
                            sm:text-2xl md:text-4xl lg:text-4xl text-2xl
-                           leading-[0.9] text-white"
+                           leading-[0.9] text-white hidden sm:block"
               >
                 
                 Market<span className=""></span>
