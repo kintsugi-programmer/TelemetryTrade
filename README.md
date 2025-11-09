@@ -264,4 +264,15 @@ MIT License © 2025 TelemetryTrade
 - feat: add Gemini + charting deps and env config
   - Installed @google/genai, react-apexcharts, apexcharts, zod
   - Added GEMINI_API_KEY and NODE_ENV to .env.local
+- feat: add Gemini-powered /api/crypto-chat with CoinGecko snapshot
+  - Added POST handler with live market fetch
+  - Validates env (GEMINI_API_KEY, COINGECKO_URL)
+  - Reduces payload to top 20 fields for prompt
+  - Generates concise trading response via gemini-2.0-flash
+  - Returns structured JSON output
+- feat: add TelemetryAI CryptoChatbot UI
+  - Added chat UI with model + user roles
+  - Integrated POST /api/crypto-chat for responses
+  - Added optimistic updates + scroll behavior
+  - Includes loading state + Enter-to-send
 
