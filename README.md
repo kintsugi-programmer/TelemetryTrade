@@ -288,3 +288,11 @@ MIT License © 2025 TelemetryTrade
   - Created app/not-found.tsx with WavyBackground and brand typography
   - Added responsive 404 layout with quick navigation (Home + Discovery)
   - Ensured design consistency with landing page (colors, font, CTA)
+- TradingView-based CryptoChart with search & fullscreen
+  - Lazy-load TradingView tv.js once with cleanup
+  - Manage widget lifecycle via ref; remove old widget on updates/unmount
+  - Support custom symbol search (auto-append USD) and quick-pick buttons
+  - Show current symbol + friendly name from POPULAR_CRYPTOS
+  - Add responsive fullscreen toggle (fixed inset-0) with ESC-style control
+  - Light theme, daily interval, autosize, toolbar and legend visible
+  - Improve UX with input icon, focus ring, and small-screen layout
