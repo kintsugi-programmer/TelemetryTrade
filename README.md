@@ -284,4 +284,7 @@ MIT License © 2025 TelemetryTrade
   - Add fully typed input and textarea components
   - Connect form to /api/sendEmail endpoint using fetch
   - Include loading state and success/error message handling
-
+- dark-themed global 404 page matching brand design
+  - Created app/not-found.tsx with WavyBackground and brand typography
+  - Added responsive 404 layout with quick navigation (Home + Discovery)
+  - Ensured design consistency with landing page (colors, font, CTA)
