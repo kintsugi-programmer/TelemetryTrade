@@ -38,7 +38,7 @@ export default function ContactPage() {
       } else {
         setResponseMessage(result.message);
       }
-    } catch (error) {
+    } catch {
       setResponseMessage("An error occurred while sending the message.");
     }
     setLoading(false);
