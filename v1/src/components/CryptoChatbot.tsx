@@ -2,7 +2,13 @@
 "use client";
 
 import * as React from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -24,7 +30,10 @@ export default function CryptoChatbot() {
   const listRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
+    listRef.current?.scrollTo({
+      top: listRef.current.scrollHeight,
+      behavior: "smooth",
+    });
   }, [messages, loading]);
 
   const sendMessage = async () => {
@@ -44,10 +53,12 @@ export default function CryptoChatbot() {
       });
 
       const data = (await res.json()) as { text?: string; error?: string };
-      const modelText = data.text ?? data.error ?? "Sorry, I couldn’t generate a reply.";
+      const modelText =
+        data.text ?? data.error ?? "Sorry, I couldn’t generate a reply.";
 
       setMessages((prev) => [...prev, { role: "model", text: modelText }]);
-    } catch (e) {
+    } catch (err) {
+      console.error("sendMessage error:", err);
       setMessages((prev) => [
         ...prev,
         { role: "model", text: "Network error. Please try again." },
@@ -71,7 +82,6 @@ export default function CryptoChatbot() {
           <Bot className="h-5 w-5 text-primary" />
           TelemetryAI Crypto Analyst
         </CardTitle>
-        
       </CardHeader>
 
       <CardContent>
@@ -80,7 +90,9 @@ export default function CryptoChatbot() {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`flex items-start gap-3 ${m.role === "user" ? "justify-end" : ""}`}
+                className={`flex items-start gap-3 ${
+                  m.role === "user" ? "justify-end" : ""
+                }`}
               >
                 {m.role === "model" && (
                   <div className="flex-shrink-0 rounded-full p-2 bg-muted">
