@@ -1,31 +1,25 @@
 {
   "socialMedia": [
-    { "label": "LinkedIn", "icon": "FaLinkedin", "href": "https://linkedin.com" },
-    { "label": "Instagram", "icon": "FaInstagram", "href": "https://instagram.com" },
-    { "label": "X", "icon": "FaXTwitter", "href": "https://twitter.com" },
-    { "label": "YouTube", "icon": "FaYoutube", "href": "https://youtube.com" },
-    { "label": "Facebook", "icon": "FaFacebook", "href": "https://facebook.com" }
+    { "label": "LinkedIn", "icon": "FaLinkedin", "href": "https://www.linkedin.com/in/kintsugi-programmer/" },
+    { "label": "Instagram", "icon": "FaInstagram", "href": "https://www.instagram.com/codingismeditation/" },
+    { "label": "YouTube", "icon": "FaYoutube", "href": "https://www.youtube.com/@CodingIsMeditation" }
   ],
   "usefulLinks": [
-    { "label": "Home", "href": "/" },
-    { "label": "Our Team", "href": "/team" },
-    { "label": "Research", "href": "/research" },
-    { "label": "Publications", "href": "/publications" }
+  { "label": "Token Discovery", "href": "/discovery" },
+  { "label": "TelemetryAI", "href": "/ai" },
+  { "label": "CandleStick Chart", "href": "/candlestick" }
+
   ],
   "moreLinks": [
-    { "label": "Teaching", "href": "/teaching" },
-    { "label": "Resources", "href": "/resources" },
-    { "label": "FAQs", "href": "/resources#FAQs" },
-    { "label": "Important Links", "href": "/resources#ImpLinks" },
-    { "label": "Contact Us", "href": "/contact" }
+    { "label": "Terms and Conditions", "href": "/terms" },
+  { "label": "Contact Us", "href": "/contact" }
   ],
   "contact": {
     "addressLines": [
-      "Company, Building",
-      "Street",
-      "State, PinCode"
+      "Based in Delhi",
+      "India"
     ],
-    "email": "emailid@gmail.com"
+    "email": "KintsugiDevStudio@gmail.com"
   },
-  "copyright": "Company Name"
+  "copyright": "KintsugiDev.Studio"
 }

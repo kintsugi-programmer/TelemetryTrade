@@ -1,5 +1,6 @@
 [
   { "label": "Token Discovery", "href": "/discovery" },
   { "label": "TelemetryAI", "href": "/ai" },
+  { "label": "CandleStick Chart", "href": "/candlestick" },
   { "label": "Contact Us", "href": "/contact" }
 ]

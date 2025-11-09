@@ -313,3 +313,17 @@ MIT License © 2025 TelemetryTrade
   - Fullscreen toggle (fixed inset-0) with responsive chart height
   - Header copy + early-stage notice; improved focus styles
   - Notes: consider debouncing search and persisting last symbol in localStorage.
+- feat(legal): add dark-themed Terms & Conditions page with sticky header, anchor nav, and scrollspy
+  - New /terms page (client component) with 16 structured sections and in-page anchors
+  - Sticky top header and “On this page” sidebar with active section highlight (scrollspy via getBoundingClientRect)
+  - Reusable Chip and SectionCard components; glassy cards and subtle borders for dark UI
+  - Memoized effectiveDate and badges (version plus “Last updated” in footer)
+  - Clear legal copy: no-advice, market-data sources, fair use/rate limits, warranties, liability, and indemnity
+  - Links to /privacy, /disclosures, and dashboard; mailto for legal contact
+  - Fully responsive layout; improved readability with tracking, leading, and underline styles
+  - No metadata export in a client file (avoids Next.js “use client + metadata” error)
+  - Follow-ups:
+    - Replace [YOUR JURISDICTION] and city placeholders before shipping
+    - Verify /privacy and /disclosures routes exist; update contact email if needed
+- Co-authored-by: — Siddhant Bali
+
