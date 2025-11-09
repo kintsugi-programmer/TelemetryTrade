@@ -3,39 +3,12 @@
 import { Maximize2, Minimize2, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-/** ---- TradingView minimal typings ---- */
+/** ---- Minimal TradingView typings (local only) ---- */
 interface TVWidget {
   remove: () => void;
 }
-
-type TVTheme = "light" | "dark";
-
-interface TVWidgetConfig {
-  autosize?: boolean;
-  symbol: string;
-  container_id: string;
-  interval?: string;
-  timezone?: string;
-  theme?: TVTheme;
-  style?: string | number;
-  locale?: string;
-  toolbar_bg?: string;
-  enable_publishing?: boolean;
-  hide_top_toolbar?: boolean;
-  hide_legend?: boolean;
-  save_image?: boolean;
-}
-
-interface TVGlobal {
-  widget: new (config: TVWidgetConfig) => TVWidget;
-}
-
-/** Make window.TradingView known (but optional) */
-declare global {
-  interface Window {
-    TradingView?: TVGlobal;
-  }
-}
+type TVCtor = new (config: object) => TVWidget;
+type WindowWithTV = Window & { TradingView?: { widget: TVCtor } };
 
 /** Extend script element with our private flag (no `any`) */
 interface TVScriptElement extends HTMLScriptElement {
@@ -72,8 +45,10 @@ export default function CryptoChart() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const w = window as WindowWithTV;
+
     // Already available
-    if (window.TradingView) {
+    if (w.TradingView) {
       setIsScriptLoaded(true);
       return;
     }
@@ -100,7 +75,7 @@ export default function CryptoChart() {
     }
 
     // Create new script
-    const script: TVScriptElement = document.createElement("script") as TVScriptElement;
+    const script = document.createElement("script") as TVScriptElement;
     script.src = "https://s3.tradingview.com/tv.js";
     script.async = true;
     script.addEventListener(
@@ -118,7 +93,9 @@ export default function CryptoChart() {
   useEffect(() => {
     if (!isScriptLoaded) return;
     if (!chartContainerRef.current) return;
-    const TV = window.TradingView;
+
+    const w = window as WindowWithTV;
+    const TV = w.TradingView;
     if (!TV) return;
 
     // Clean up previous instance
