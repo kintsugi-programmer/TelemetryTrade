@@ -10,7 +10,7 @@ export default function TermsPage() {
     { id: 'acceptance', title: 'Acceptance of Terms' },
     { id: 'eligibility', title: 'Eligibility' },
     { id: 'accounts', title: 'Accounts & Security' },
-    { id: 'market-data', title: 'Market Data & Third‑Party Services' },
+    { id: 'market-data', title: 'Market Data & Third-Party Services' },
     { id: 'no-advice', title: 'No Investment Advice' },
     { id: 'use', title: 'Permitted Use & Prohibited Conduct' },
     { id: 'plans', title: 'Plans, Billing, Trials & Refunds' },
@@ -177,7 +177,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </ul>
             </SectionCard>
 
-            <SectionCard id="market-data" title="Market Data & Third‑Party Services">
+            <SectionCard id="market-data" title="Market Data & Third-Party Services">
               <p>
                 TelemetryTrade presents pricing, charts, and other information sourced from third parties such as
                 CoinGecko (REST APIs), TradingView (embedded charts/widgets), exchanges, news feeds, and analytics
@@ -185,7 +185,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </p>
               <ul className="list-disc pl-5">
                 <li>Data is provided "as is" for informational purposes only and may be delayed, incomplete, or inaccurate.</li>
-                <li>APIs and widgets are governed by the providers’ own terms; your use must comply with those terms.</li>
+                <li>APIs and widgets are governed by the providers` own terms; your use must comply with those terms.</li>
                 <li>We may change or remove integrations at any time, with or without notice.</li>
               </ul>
             </SectionCard>
@@ -199,12 +199,12 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
             </SectionCard>
 
             <SectionCard id="use" title="Permitted Use & Prohibited Conduct">
-              <p>Subject to these Terms, we grant you a limited, revocable, non‑exclusive, non‑transferable right to access and use the Service.</p>
+              <p>Subject to these Terms, we grant you a limited, revocable, non-exclusive, non-transferable right to access and use the Service.</p>
               <p className="font-semibold">You agree NOT to:</p>
               <ul className="list-disc pl-5">
                 <li>Scrape, spider, or harvest data except via documented export features or allowed APIs.</li>
                 <li>Reverse engineer, decompile, or attempt to derive source code except as allowed by law.</li>
-                <li>Bypass security controls, rate limits, or access non‑public areas.</li>
+                <li>Bypass security controls, rate limits, or access non-public areas.</li>
                 <li>Use the Service for unlawful activities, market manipulation, spam, or malware distribution.</li>
                 <li>Impersonate others or misrepresent your affiliation with a person or entity.</li>
               </ul>
@@ -215,13 +215,13 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
                 <li>Some features may require a paid plan. Prices and features are subject to change.</li>
                 <li>Unless stated otherwise, subscriptions renew automatically until canceled.</li>
                 <li>Trials convert to paid at the end of the trial unless you cancel beforehand.</li>
-                <li>Except where required by law, fees are non‑refundable. We may, at our discretion, issue partial credits.</li>
+                <li>Except where required by law, fees are non-refundable. We may, at our discretion, issue partial credits.</li>
               </ul>
             </SectionCard>
 
             <SectionCard id="fair-use" title="Fair Use & Rate Limits">
               <p>
-                To protect the stability of the Service and our Data Providers, we may enforce fair‑use policies and rate
+                To protect the stability of the Service and our Data Providers, we may enforce fair-use policies and rate
                 limits. Excessive or abusive usage may be throttled or suspended. Contact us for enterprise access if you
                 need higher limits.
               </p>
@@ -231,7 +231,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               <ul className="list-disc pl-5">
                 <li>All rights in the Service, including software, design, and content we create, are owned by us or our licensors.</li>
                 <li>Logos and trademarks are the property of their respective owners. Use does not imply endorsement.</li>
-                <li>You retain rights to content you upload; you grant us a limited license to host and display it for the Service’s operation.</li>
+                <li>You retain rights to content you upload; you grant us a limited license to host and display it for the Service`s operation.</li>
               </ul>
             </SectionCard>
 
@@ -247,7 +247,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               <p>
                 THE SERVICE IS PROVIDED ON AN \"AS IS\" AND \"AS AVAILABLE\" BASIS, WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR
                 IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-                PURPOSE, AND NON‑INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE ACCURATE, RELIABLE, ERROR‑FREE,
+                PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE ACCURATE, RELIABLE, ERROR-FREE,
                 UNINTERRUPTED, OR SECURE, OR THAT DEFECTS WILL BE CORRECTED.
               </p>
             </SectionCard>
@@ -268,7 +268,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               <p>
                 You agree to defend, indemnify, and hold harmless TelemetryTrade and its affiliates, officers, employees,
                 and agents from and against any claims, liabilities, damages, losses, and expenses (including reasonable
-                attorneys’ fees) arising out of or in any way connected with your use of the Service or your violation of
+                attorneys` fees) arising out of or in any way connected with your use of the Service or your violation of
                 these Terms.
               </p>
             </SectionCard>
@@ -278,7 +278,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
                 These Terms are governed by the laws of <span className="font-medium">[YOUR JURISDICTION]</span> without regard to its
                 conflict of laws rules. All disputes shall be brought exclusively in the courts located in
                 <span className="font-medium"> [YOUR CITY, YOUR JURISDICTION]</span>. You and TelemetryTrade waive any objections to venue or
-                convenience of forum. Nothing herein limits either party’s right to seek injunctive relief.
+                convenience of forum. Nothing herein limits either party`s right to seek injunctive relief.
               </p>
               <p className="text-xs text-neutral-400">Tip: If you operate from India, consider specifying the laws of India and the courts of New Delhi, Maharashtra, etc. Check with counsel.</p>
             </SectionCard>
@@ -286,7 +286,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
             <SectionCard id="changes" title="Changes to the Service & Terms">
               <p>
                 We may modify the Service and these Terms at any time. If a change is material, we will provide reasonable
-                notice (e.g., by posting in‑app or via email). Your continued use of the Service after changes become
+                notice (e.g., by posting in-app or via email). Your continued use of the Service after changes become
                 effective constitutes acceptance of the revised Terms.
               </p>
             </SectionCard>

@@ -13,7 +13,7 @@ export default function DelayedLoader({ children }: DelayedLoaderProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 500);
 
     return () => clearTimeout(timer); // Cleanup the timer
   }, []);

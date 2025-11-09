@@ -3,16 +3,47 @@
 import { Maximize2, Minimize2, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+/** ---- Minimal TradingView typings ---- */
+type TVWidget = { remove: () => void };
+
+type TVWidgetConfig = {
+  autosize?: boolean;
+  symbol: string;
+  container_id: string;
+  interval?: string;
+  timezone?: string;
+  theme?: "dark" | "light";
+  style?: string | number;
+  locale?: string;
+  toolbar_bg?: string;
+  enable_publishing?: boolean;
+  hide_top_toolbar?: boolean;
+  hide_legend?: boolean;
+  save_image?: boolean;
+  backgroundColor?: string;
+};
+
+declare global {
+  interface Window {
+    TradingView?: {
+      widget: new (config: object) => TVWidget; // align with existing declaration
+    };
+  }
+}
+
+
+/** ---------------------------------------------- */
+
 // Popular cryptocurrency symbols for easy access
 const POPULAR_CRYPTOS = [
   { symbol: "BTCUSD", name: "Bitcoin" },
   { symbol: "ETHUSD", name: "Ethereum" },
   { symbol: "BNBUSD", name: "BNB" },
-  { symbol: "SOLUSD", name: "Solana"},
-  { symbol: "ADAUSD", name: "Cardano"},
-  { symbol: "XRPUSD", name: "XRP"},
-  { symbol: "DOTUSD", name: "Polkadot"},
-  { symbol: "AVAXUSD", name: "Avalanche"},
+  { symbol: "SOLUSD", name: "Solana" },
+  { symbol: "ADAUSD", name: "Cardano" },
+  { symbol: "XRPUSD", name: "XRP" },
+  { symbol: "DOTUSD", name: "Polkadot" },
+  { symbol: "AVAXUSD", name: "Avalanche" },
 ];
 
 export default function CryptoChart() {
@@ -22,7 +53,7 @@ export default function CryptoChart() {
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 
   const chartContainerRef = useRef<HTMLDivElement>(null);
-  const widgetRef = useRef<any>(null);
+  const widgetRef = useRef<TVWidget | null>(null);
 
   useEffect(() => {
     if (window.TradingView) {
@@ -46,35 +77,35 @@ export default function CryptoChart() {
   }, []);
 
   useEffect(() => {
-    if (!isScriptLoaded || !chartContainerRef.current) return;
+    if (!isScriptLoaded || !chartContainerRef.current || !window.TradingView) return;
 
-    if (widgetRef.current) {
-      widgetRef.current.remove();
-    }
-    chartContainerRef.current.innerHTML = "";
+// Remove any existing widget
+widgetRef.current?.remove();
+chartContainerRef.current.innerHTML = "";
 
-    widgetRef.current = new window.TradingView.widget({
-      autosize: true,
-      symbol: currentSymbol,
-      container_id: chartContainerRef.current.id,
-      interval: "1D",
-      timezone: "Etc/UTC",
-      theme: "dark",
-      style: "1",
-      locale: "en",
-      toolbar_bg: "#1e1e1e",
-      enable_publishing: false,
-      hide_top_toolbar: false,
-      hide_legend: false,
-      save_image: false,
-      backgroundColor: "#0d0d0d",
-    });
+// Create a new widget and assign with explicit type
+widgetRef.current = new window.TradingView.widget(
+  {
+    autosize: true,
+    symbol: currentSymbol,
+    container_id: chartContainerRef.current.id,
+    interval: "1D",
+    timezone: "Etc/UTC",
+    theme: "dark",
+    style: "1",
+    locale: "en",
+    toolbar_bg: "#1e1e1e",
+    enable_publishing: false,
+    hide_top_toolbar: false,
+    hide_legend: false,
+    save_image: false,
+    backgroundColor: "#0d0d0d",
+  } satisfies TVWidgetConfig
+) as TVWidget;
 
     return () => {
-      if (widgetRef.current) {
-        widgetRef.current.remove();
-        widgetRef.current = null;
-      }
+      widgetRef.current?.remove();
+      widgetRef.current = null;
     };
   }, [isScriptLoaded, currentSymbol]);
 
@@ -94,7 +125,7 @@ export default function CryptoChart() {
   };
 
   const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
+    setIsFullscreen((prev) => !prev);
   };
 
   return (
@@ -107,19 +138,19 @@ export default function CryptoChart() {
       <div className="bg-neutral-800 p-6 border-b border-neutral-700">
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <header className="space-y-2">
-       <h1
-            className="font-rubik
-                      text-4xl sm:text-2xl md:text-2xl lg:text-3xl
-                      leading-[0.9] text-white"
-          >
-            <span className=" bg-clip-text text-red-500">
-              Telemetry CandleStick
-            </span>
-          </h1>
+            <h1
+              className="font-rubik
+                        text-4xl sm:text-2xl md:text-2xl lg:text-3xl
+                        leading-[0.9] text-white"
+            >
+              <span className="bg-clip-text text-red-500">
+                Telemetry CandleStick
+              </span>
+            </h1>
             <p className="text-sm text-neutral-400">
               Visualize real-time candlestick data for popular cryptocurrencies
-              using TradingView`s 3rd-party charting engine. Useful for analyzing
-              live price movements, trends, and volatility.
+              using TradingView&apos;s 3rd-party charting engine. Useful for
+              analyzing live price movements, trends, and volatility.
             </p>
             <p className="text-xs text-neutral-600 italic">
               ⚠️ Currently in early stage with 3rd-party embed. Chart data may
