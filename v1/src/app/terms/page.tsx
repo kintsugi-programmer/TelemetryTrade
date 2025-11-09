@@ -3,42 +3,43 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
+const SECTIONS = [
+  { id: 'acceptance', title: 'Acceptance of Terms' },
+  { id: 'eligibility', title: 'Eligibility' },
+  { id: 'accounts', title: 'Accounts & Security' },
+  { id: 'market-data', title: 'Market Data & Third-Party Services' },
+  { id: 'no-advice', title: 'No Investment Advice' },
+  { id: 'use', title: 'Permitted Use & Prohibited Conduct' },
+  { id: 'plans', title: 'Plans, Billing, Trials & Refunds' },
+  { id: 'fair-use', title: 'Fair Use & Rate Limits' },
+  { id: 'ip', title: 'Intellectual Property' },
+  { id: 'privacy', title: 'Privacy' },
+  { id: 'warranties', title: 'Disclaimers & Warranties' },
+  { id: 'liability', title: 'Limitation of Liability' },
+  { id: 'indemnity', title: 'Indemnification' },
+  { id: 'law', title: 'Governing Law & Disputes' },
+  { id: 'changes', title: 'Changes to the Service & Terms' },
+  { id: 'contact', title: 'Contact' },
+] as const
+
 export default function TermsPage() {
   const effectiveDate = useMemo(() => new Date('2025-11-09T00:00:00+05:30'), [])
 
-  const sections = [
-    { id: 'acceptance', title: 'Acceptance of Terms' },
-    { id: 'eligibility', title: 'Eligibility' },
-    { id: 'accounts', title: 'Accounts & Security' },
-    { id: 'market-data', title: 'Market Data & Third-Party Services' },
-    { id: 'no-advice', title: 'No Investment Advice' },
-    { id: 'use', title: 'Permitted Use & Prohibited Conduct' },
-    { id: 'plans', title: 'Plans, Billing, Trials & Refunds' },
-    { id: 'fair-use', title: 'Fair Use & Rate Limits' },
-    { id: 'ip', title: 'Intellectual Property' },
-    { id: 'privacy', title: 'Privacy' },
-    { id: 'warranties', title: 'Disclaimers & Warranties' },
-    { id: 'liability', title: 'Limitation of Liability' },
-    { id: 'indemnity', title: 'Indemnification' },
-    { id: 'law', title: 'Governing Law & Disputes' },
-    { id: 'changes', title: 'Changes to the Service & Terms' },
-    { id: 'contact', title: 'Contact' },
-  ] as const
-
-  const [active, setActive] = useState<string>(sections[0].id)
+  const [active, setActive] = useState<string>(SECTIONS[0].id)
   const containerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const handler = () => {
       const bounds: Array<{ id: string; top: number }> = []
-      for (const s of sections) {
+      for (const s of SECTIONS) {
         const el = document.getElementById(s.id)
         if (!el) continue
         const rect = el.getBoundingClientRect()
         bounds.push({ id: s.id, top: rect.top })
       }
+      const threshold = (typeof window !== 'undefined' ? window.innerHeight * 0.3 : 0) + 80
       const visible = bounds
-        .filter(b => b.top <= (typeof window !== 'undefined' ? (window.innerHeight * 0.3) : 0) + 80)
+        .filter(b => b.top <= threshold)
         .sort((a, b) => b.top - a.top)[0]
       if (visible) setActive(visible.id)
     }
@@ -49,28 +50,28 @@ export default function TermsPage() {
       window.removeEventListener('scroll', handler)
       window.removeEventListener('resize', handler)
     }
-  }, [sections])
+  }, []) // sections is stable now
 
- type ChipTone = "default" | "warning" | "muted";
+  type ChipTone = 'default' | 'warning' | 'muted'
 
-interface ChipProps {
-  children: React.ReactNode;
-  tone?: ChipTone;
-}
+  interface ChipProps {
+    children: React.ReactNode
+    tone?: ChipTone
+  }
 
-const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
-  const map: Record<ChipTone, string> = {
-    default: "bg-neutral-800 text-neutral-100 border-white/10",
-    warning: "bg-yellow-950 text-yellow-300 border-yellow-700/30",
-    muted: "bg-neutral-800/60 text-neutral-400 border-white/10",
-  };
+  const Chip: React.FC<ChipProps> = ({ children, tone = 'default' }) => {
+    const map: Record<ChipTone, string> = {
+      default: 'bg-neutral-800 text-neutral-100 border-white/10',
+      warning: 'bg-yellow-950 text-yellow-300 border-yellow-700/30',
+      muted: 'bg-neutral-800/60 text-neutral-400 border-white/10',
+    }
 
-  return (
-    <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs ${map[tone]}`}>
-      {children}
-    </span>
-  );
-};
+    return (
+      <span className={`inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs ${map[tone]}`}>
+        {children}
+      </span>
+    )
+  }
 
   const SectionCard: React.FC<{ id: string; title: string; children: React.ReactNode }> = ({ id, title, children }) => (
     <section id={id} className="scroll-mt-28">
@@ -86,7 +87,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
       <div className="rounded-2xl border border-white/10 bg-neutral-950/60 p-4">
         <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-400">On this page</div>
         <ul className="space-y-1">
-          {sections.map(s => (
+          {SECTIONS.map(s => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
@@ -111,7 +112,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
           <div className="flex h-16 items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <h1 className="font-rubik text-2xl sm:text-3xl md:text-4xl leading-[0.9] text-white">
-                Terms & Conditions
+                Terms &amp; Conditions
               </h1>
               <div className="hidden sm:flex flex-col leading-tight">
                 <span className="text-xs text-neutral-400">TelemetryTrade</span>
@@ -119,7 +120,9 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </div>
             </div>
             <div className="hidden md:flex items-center gap-2">
-              <Chip tone="muted">Effective {effectiveDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</Chip>
+              <Chip tone="muted">
+                Effective {effectiveDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </Chip>
               <Chip>v1.0</Chip>
             </div>
           </div>
@@ -131,9 +134,9 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-3xl text-neutral-300">
-              Welcome to <span className="font-semibold text-neutral-100">TelemetryTrade</span>. These Terms & Conditions ("Terms")
+              Welcome to <span className="font-semibold text-neutral-100">TelemetryTrade</span>. These Terms &amp; Conditions (&quot;Terms&quot;)
               govern your access to and use of our websites, apps, dashboards, widgets, APIs and related
-              services (collectively, the "Service"). By accessing or using the Service, you agree to be bound
+              services (collectively, the &quot;Service&quot;). By accessing or using the Service, you agree to be bound
               by these Terms.
             </p>
             <div className="flex items-center gap-2">
@@ -150,14 +153,14 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
           <div className="space-y-6">
             <SectionCard id="acceptance" title="Acceptance of Terms">
               <p>
-                By creating an account, clicking "I agree", or using any part of the Service, you acknowledge that you
+                By creating an account, clicking &quot;I agree&quot;, or using any part of the Service, you acknowledge that you
                 have read, understood, and agree to be bound by these Terms and any policies referenced here, including
                 our <Link href="/privacy" className="text-emerald-300 underline decoration-dotted underline-offset-4">Privacy Policy</Link>.
                 If you do not agree, do not use the Service.
               </p>
               <p>
                 If you use the Service on behalf of an organization, you represent that you have authority to bind that
-                organization and that "you" includes that organization and its affiliates.
+                organization and that &quot;you&quot; includes that organization and its affiliates.
               </p>
             </SectionCard>
 
@@ -169,7 +172,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </ul>
             </SectionCard>
 
-            <SectionCard id="accounts" title="Accounts & Security">
+            <SectionCard id="accounts" title="Accounts &amp; Security">
               <ul className="list-disc pl-5">
                 <li>You are responsible for safeguarding your account credentials and for activities under your account.</li>
                 <li>Notify us immediately if you suspect unauthorized access or a security incident.</li>
@@ -177,15 +180,15 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </ul>
             </SectionCard>
 
-            <SectionCard id="market-data" title="Market Data & Third-Party Services">
+            <SectionCard id="market-data" title="Market Data &amp; Third-Party Services">
               <p>
                 TelemetryTrade presents pricing, charts, and other information sourced from third parties such as
                 CoinGecko (REST APIs), TradingView (embedded charts/widgets), exchanges, news feeds, and analytics
-                providers (collectively, "Data Providers"). These Data Providers are not controlled by us.
+                providers (collectively, &quot;Data Providers&quot;). These Data Providers are not controlled by us.
               </p>
               <ul className="list-disc pl-5">
-                <li>Data is provided "as is" for informational purposes only and may be delayed, incomplete, or inaccurate.</li>
-                <li>APIs and widgets are governed by the providers` own terms; your use must comply with those terms.</li>
+                <li>Data is provided &quot;as is&quot; for informational purposes only and may be delayed, incomplete, or inaccurate.</li>
+                <li>APIs and widgets are governed by the providers&apos; own terms; your use must comply with those terms.</li>
                 <li>We may change or remove integrations at any time, with or without notice.</li>
               </ul>
             </SectionCard>
@@ -198,7 +201,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </p>
             </SectionCard>
 
-            <SectionCard id="use" title="Permitted Use & Prohibited Conduct">
+            <SectionCard id="use" title="Permitted Use &amp; Prohibited Conduct">
               <p>Subject to these Terms, we grant you a limited, revocable, non-exclusive, non-transferable right to access and use the Service.</p>
               <p className="font-semibold">You agree NOT to:</p>
               <ul className="list-disc pl-5">
@@ -210,7 +213,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </ul>
             </SectionCard>
 
-            <SectionCard id="plans" title="Plans, Billing, Trials & Refunds">
+            <SectionCard id="plans" title="Plans, Billing, Trials &amp; Refunds">
               <ul className="list-disc pl-5">
                 <li>Some features may require a paid plan. Prices and features are subject to change.</li>
                 <li>Unless stated otherwise, subscriptions renew automatically until canceled.</li>
@@ -219,7 +222,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </ul>
             </SectionCard>
 
-            <SectionCard id="fair-use" title="Fair Use & Rate Limits">
+            <SectionCard id="fair-use" title="Fair Use &amp; Rate Limits">
               <p>
                 To protect the stability of the Service and our Data Providers, we may enforce fair-use policies and rate
                 limits. Excessive or abusive usage may be throttled or suspended. Contact us for enterprise access if you
@@ -231,7 +234,7 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               <ul className="list-disc pl-5">
                 <li>All rights in the Service, including software, design, and content we create, are owned by us or our licensors.</li>
                 <li>Logos and trademarks are the property of their respective owners. Use does not imply endorsement.</li>
-                <li>You retain rights to content you upload; you grant us a limited license to host and display it for the Service`s operation.</li>
+                <li>You retain rights to content you upload; you grant us a limited license to host and display it for the Service&apos;s operation.</li>
               </ul>
             </SectionCard>
 
@@ -243,9 +246,9 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               </p>
             </SectionCard>
 
-            <SectionCard id="warranties" title="Disclaimers & Warranties">
+            <SectionCard id="warranties" title="Disclaimers &amp; Warranties">
               <p>
-                THE SERVICE IS PROVIDED ON AN \"AS IS\" AND \"AS AVAILABLE\" BASIS, WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR
+                THE SERVICE IS PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; BASIS, WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR
                 IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
                 PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE ACCURATE, RELIABLE, ERROR-FREE,
                 UNINTERRUPTED, OR SECURE, OR THAT DEFECTS WILL BE CORRECTED.
@@ -268,22 +271,24 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
               <p>
                 You agree to defend, indemnify, and hold harmless TelemetryTrade and its affiliates, officers, employees,
                 and agents from and against any claims, liabilities, damages, losses, and expenses (including reasonable
-                attorneys` fees) arising out of or in any way connected with your use of the Service or your violation of
+                attorneys&apos; fees) arising out of or in any way connected with your use of the Service or your violation of
                 these Terms.
               </p>
             </SectionCard>
 
-            <SectionCard id="law" title="Governing Law & Disputes">
+            <SectionCard id="law" title="Governing Law &amp; Disputes">
               <p>
                 These Terms are governed by the laws of <span className="font-medium">[YOUR JURISDICTION]</span> without regard to its
                 conflict of laws rules. All disputes shall be brought exclusively in the courts located in
                 <span className="font-medium"> [YOUR CITY, YOUR JURISDICTION]</span>. You and TelemetryTrade waive any objections to venue or
-                convenience of forum. Nothing herein limits either party`s right to seek injunctive relief.
+                convenience of forum. Nothing herein limits either party&apos;s right to seek injunctive relief.
               </p>
-              <p className="text-xs text-neutral-400">Tip: If you operate from India, consider specifying the laws of India and the courts of New Delhi, Maharashtra, etc. Check with counsel.</p>
+              <p className="text-xs text-neutral-400">
+                Tip: If you operate from India, consider specifying the laws of India and the courts of New Delhi, Maharashtra, etc. Check with counsel.
+              </p>
             </SectionCard>
 
-            <SectionCard id="changes" title="Changes to the Service & Terms">
+            <SectionCard id="changes" title="Changes to the Service &amp; Terms">
               <p>
                 We may modify the Service and these Terms at any time. If a change is material, we will provide reasonable
                 notice (e.g., by posting in-app or via email). Your continued use of the Service after changes become
@@ -293,9 +298,14 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
 
             <SectionCard id="contact" title="Contact">
               <p>
-                Questions about these Terms? Email us at <a href="mailto:kintsugidevstudio@gmail.com" className="text-emerald-300 underline decoration-dotted underline-offset-4">kintsugidevstudio@gmail.com</a>.
+                Questions about these Terms? Email us at{' '}
+                <a href="mailto:kintsugidevstudio@gmail.com" className="text-emerald-300 underline decoration-dotted underline-offset-4">
+                  kintsugidevstudio@gmail.com
+                </a>.
               </p>
-              <p className="text-xs text-neutral-400">This page is provided for convenience and does not constitute legal advice. Have a qualified attorney review before publishing.</p>
+              <p className="text-xs text-neutral-400">
+                This page is provided for convenience and does not constitute legal advice. Have a qualified attorney review before publishing.
+              </p>
             </SectionCard>
           </div>
 
@@ -308,7 +318,9 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
         <div className="mx-auto max-w-7xl px-4 py-6 text-sm text-neutral-400">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
-              <Chip tone="muted">Last updated: {effectiveDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</Chip>
+              <Chip tone="muted">
+                Last updated: {effectiveDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </Chip>
               <span>•</span>
               <Link href="/" className="text-neutral-300 underline decoration-dotted underline-offset-4">Back to Dashboard</Link>
             </div>
@@ -323,4 +335,3 @@ const Chip: React.FC<ChipProps> = ({ children, tone = "default" }) => {
     </div>
   )
 }
-

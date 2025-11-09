@@ -23,8 +23,7 @@ interface ChartModalProps {
   /** 7-day sparkline as prices in USD */
   priceData?: number[]
   currency: "usd" | "inr"
-  /** Optional image url for header avatar (can pass your token image) */
-  tokenImageUrl?: string
+
 }
 
 const USD_TO_INR_RATE = 83.5 // keep in sync with your page if you centralize this
@@ -39,7 +38,7 @@ export const ChartModal: React.FC<ChartModalProps> = ({
   tokenSymbol,
   priceData,
   currency,
-  tokenImageUrl,
+  
 }) => {
   const [mounted, setMounted] = useState(false)
 
