@@ -4,126 +4,88 @@ TelemetryTrade is a modern, high-performance web trading interface designed to s
 
 ## ✨ Features
 
-* Avoided Next.js 15 due to React 19 conflicts; using stable Next.js 14
-* Added TypeScript, ESLint, TailwindCSS, and `src/` directory structure
-* Implemented App Router with `@/*` alias support
-* Added delayed loader for improved UX
-* Installed dependencies: `react-icons`, `framer-motion`
-* Built responsive sticky navbar using `navLinks.json`
-* Created interactive responsive footer using `footLinks.json`
-* Integrated newsletter form with MailService + NewsletterService APIs
-* Stored subscribed users in `mailUsers.json`
-* `.env` added to `.gitignore` for security
-* Added favicon and web manifest
-* Added custom fonts: `--font-satoshi`, `--font-rubik-80s`
-* Integrated shadcn/ui design system
-* Implemented Skeleton Loading UI + Shimmer state
-* Built responsive Hero Section
-* Added Clerk secure multi-auth (email + wallets)
-* Responsive Navbar with Mobile Menu
-* Responsive Footer with Newsletter Section
-* Installed `@tanstack/react-query` for data fetching and caching
-* Installed `recharts` for visual charts
-* Added `lucide-react` for modern icons
-* Installed `tailwindcss-animate`, `class-variance-authority`, `clsx`, `tailwind-merge`
-* Built Token Discovery table with CoinGecko data, sparkline, and auto-refresh
-* Added null-safe formatters and error UI in Token Table
-* Used custom SVG sparkline with zero chart dependencies
-* Optimized sparkline with `useMemo` and pure functions
-* Added sorting, searching, filtering, and pagination to the Token Table
-* Added currency switcher (USD/INR) with formatting
-* Added table density toggle (compact/comfortable)
-* Added pagination controls and footer with range display
-* Added manual Refresh button and last update timestamp
-* Implemented advanced sparkline with hover, tooltip, and area fill
-* Added client-side Gemini chat API integration
-* Built Gemini-powered Crypto Chatbot UI
-* Added marketing header and disclaimers in Chat UI
-* Created responsive Contact Us page with API integration and validation
-* Added dark-themed global 404 page with quick navigation links
-* Integrated TradingView-based CryptoChart with search and fullscreen
-* Implemented 7-day sparkline modal using Recharts with stats and currency switch
-* Built dark-themed TradingView candlestick widget with quick-pick and fullscreen
-* Added dark-themed Terms & Conditions page with scrollspy navigation
-* Enabled sticky header and active anchor highlighting for Terms page
-* Ensured no metadata export in client Terms file to avoid Next.js issue
-* Added links to `/privacy`, `/disclosures`, and legal email in Terms page
-* Ensured dark/light mode support and semantic markup across the app
-* Added code comments and clear changelog entries for traceability
-* Modern Market Dashboard with real-time updates API
-* Fully responsive down to 320px width
-* Animated row deltas (green/red transitions)
-* Sortable and filterable token table
-* Hover effects and click-based modals
-* Skeleton and shimmer loading states
-* Progressive data loading
-* Virtualized table rows (10k+ items with no lag)
-* Lighthouse score ≥ 90 on mobile and desktop
-* Connected to real trading APIs
-* Optional charts powered by TradingView
-* Next.js 14 with TypeScript (strict mode)
-* TailwindCSS for styling
-* Atomic Design folder structure
-* Redux Toolkit and React Query for state and data management
-* shadcn/ui + Headless UI components
-* Jest + React Testing Library setup
-* ESLint and Prettier configured
-* SEO-friendly and accessible
-* Smooth transitions with Framer Motion
-* Token preview charts with Recharts
-* Search and deep-link-based filters
-* Full keyboard navigation support
-* User-configurable columns
-* Mail subscription API with MailUser storage
-* Responsive sticky navbar and footer
-* Custom 404 page with design consistency
-* TradingView candlestick and line chart integrations
-* Fully typed Contact form with backend API
-* AI chatbot powered by Google Gemini
-* Chat UI with optimistic updates and streaming
-* Dark-themed Terms & Conditions page
-* Scrollspy and anchor-based navigation
-* Clerk-based multi-auth with wallet + email
-* Custom SVG sparkline charts
-* Skeleton UI for data fetch
-* Currency switcher (USD/INR)
-* Live client-side pagination with size controls
-* Page number windowing with ellipsis
-* Detailed price statistics in chart modals
-* Toggleable table density (compact/comfortable)
-* Manual and automatic refresh with status badges
-* GitHub clean commits and deployment to Vercel
-* Optimized folder structure under `/src`
-* Web manifest, favicon, and custom Satoshi font
-* Error handling panel for API failures
-* Loading indicators for async components
-* Reusable Button, Card, and Input components
-* Utilities with `clsx` and `tailwind-merge`
-* Null-safe formatting utilities
-* Responsive footer with live newsletter form
-* Global `.env` handling with `.gitignore`
-* shadcn-based cards, modals, scroll areas
-* Global provider setup for state and style
-* Multi-column responsive grid layouts
-* Placeholder charts with prompt to toggle to live mode
-* Future scope: wallet management and deeper live APIs
-* Visual regression-compatible markup, test-ready and scalable
+
+Framework & Core Setup
+- Chose Next.js 14 (stable) to avoid React 19 compatibility issues
+- TypeScript enabled in strict mode
+- App Router architecture with @/* path aliases
+- Organized atomic design structure under /src
+- ESLint, Prettier, Jest, React Testing Library configured
+- TailwindCSS with tailwindcss-animate, CVA, clsx, tailwind-merge
+- shadcn/ui + Headless UI for accessible, composable components
+- Environment variables secured via .env and .gitignore
+- Web manifest, favicon, and custom fonts (Satoshi, Rubik 80s)
+
+UI / UX & Responsiveness
+- Fully responsive layout (320px → desktop)
+- Sticky responsive navbar and mobile menu (JSON-driven links)
+- Interactive footer with newsletter subscription
+- Skeleton loading + shimmer states for async views
+- Delayed loaders and progressive data loading
+- Dark / light theme support with semantic markup
+- Smooth transitions and micro-interactions via Framer Motion
+- Global 404 page with consistent dark theme and quick links
+
+State, Data & Performance
+- Redux Toolkit for global state management
+- @tanstack/react-query for caching, polling, and async control
+- Null-safe formatters and centralized error panels
+- Optimized rendering using memoization and pure utilities
+- Virtualized tables supporting 10k+ rows without lag
+- Lighthouse score ≥ 90 on mobile and desktop
+
+Crypto Market Features
+- Real-time token discovery dashboard (CoinGecko + trading APIs)
+- Sortable, searchable, filterable, paginated token table
+- User-configurable columns and table density toggle
+- Currency switcher (USD / INR) with proper localization
+- Animated price deltas with green/red transitions
+- Manual refresh + auto-refresh with timestamps and status badges
+- Advanced pagination with ellipsis windowing
+
+Charts & Visualizations
+- Custom SVG sparklines (zero external chart dependencies)
+- Hover tooltips, area fill, and interactive states
+- 7-day sparkline modal with stats and currency switch
+- Recharts-based detailed charts where required
+- TradingView candlestick and line charts with search and fullscreen
+- Placeholder charts with prompt to enable live mode
+
+Authentication & APIs
+- Clerk-based secure multi-auth (email + wallet support)
+- Fully typed Contact Us form with backend validation
+- Newsletter system using MailService + NewsletterService APIs
+- Subscribed users persisted in mailUsers.json
+- Global providers setup for auth, state, and styling
+
+AI & Advanced Integrations
+- Client-side Google Gemini API integration
+- Gemini-powered crypto chatbot with streaming responses
+- Optimistic UI updates and error recovery
+- Marketing headers and legal disclaimers in chat UI
+
+Legal, SEO & Accessibility
+- SEO-friendly routing and metadata handling
+- Dark-themed Terms & Conditions page
+- Scrollspy navigation with active anchor highlighting
+- Privacy, disclosures, and legal contact links included
+- Full keyboard navigation and accessibility compliance
+
+DevOps & Delivery
+- Clean, traceable GitHub commit history
+- Clear changelog and inline code documentation
+- Deployed to Vercel with production optimizations
+- Secure environment handling and build stability
+
+Result
+- Production-grade crypto analytics platform
+- High-performance, accessible, and scalable
+- Real-time data, AI assistance, and modern UX
 
 ---
 
 ## Lighthouse Report
 ![alt text](image.png)
-
----
-
-## 🔥 Extras (Optional Bonus Additions)
-
-- 🎨 Framer motion for smooth animated transitions
-- 📊 Token preview charts with Recharts or TradingView widgets
-- 🔄 Token state persisted via Zustand or URL params
-- ♿ Full keyboard navigation & ARIA roles for accessibility
-- 🔍 Search & deep-link filters, user-configurable columns
-- 🤖 Deployed on Vercel Optimised
 
 ---
 
