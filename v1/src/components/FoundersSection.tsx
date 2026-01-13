@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Linkedin, Mail, Globe } from 'lucide-react';
 
 export const FoundersSection: React.FC = () => {
@@ -19,7 +18,7 @@ export const FoundersSection: React.FC = () => {
             Meet the Founder
           </h2>
           <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-            Visionary behind TelemetryTrade's 4D Intelligence framework
+            Visionary behind TelemetryTrade&apos;s 4D Intelligence framework
           </p>
         </div>
 
@@ -75,7 +74,7 @@ export const FoundersSection: React.FC = () => {
 
                   <div className="space-y-1.5 text-gray-300 text-sm sm:text-base">
                     <p>GenAI & Agentic AI Web Developer × Researcher</p>
-                    <p>Dean's List'25 IIIT-Delhi | CSD 2026 Batch</p>
+                    <p>Dean&apos;s List&apos;25 IIIT-Delhi | CSD 2026 Batch</p>
                     <p>Human-Centered Systems, Product Design, Linux & Cloud</p>
                   </div>
 
@@ -126,7 +125,7 @@ export const FoundersSection: React.FC = () => {
                     <p className="text-xs text-gray-500 mb-3">Key Achievements</p>
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       {[
-                        'Distinguished Dean\'s List Award',
+                        'Distinguished Dean&#39;s List Award',
                         '1000+ GitHub Commits',
                         'Lead Developer @ IIITD',
                         'Production Systems @ AIIMS',
@@ -152,7 +151,7 @@ export const FoundersSection: React.FC = () => {
         {/* Quote */}
         <div className="mt-8 sm:mt-12 text-center">
           <p className="text-gray-400 text-sm sm:text-base italic">
-            "Not empty, just exclusive. My most private repos run the show. 🚀"
+            &quot;Not empty, just exclusive. My most private repos run the show. 🚀&quot;
           </p>
         </div>
       </div>

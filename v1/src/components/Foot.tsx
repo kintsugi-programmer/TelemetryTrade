@@ -149,6 +149,7 @@ const Footer = () => {
           <div className="hidden md:block pt-4">
             <p className="text-xs mb-2 text-gray-400">Scan to visit on mobile</p>
             <div className="bg-white p-2 rounded-lg inline-block shadow-lg hover:scale-105 transition-transform duration-300">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://telemetrytrade.vercel.app/" 
                 alt="QR Code for TelemetryTrade"

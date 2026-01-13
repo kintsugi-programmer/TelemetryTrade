@@ -72,10 +72,10 @@ export const FourDIntelligence: React.FC = () => {
                        text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400
                        mb-6 leading-tight"
           >
-            TelemetryTrade's 4D Intelligence
+            TelemetryTrade &apos; 4D Intelligence
           </h2>
           <p className="text-gray-400 text-xl max-w-3xl mx-auto">
-            From total market understanding to clear decisions — across every dimension.
+            From total market understanding to clear decisions &mdash; across every dimension.
           </p>
         </div>
 

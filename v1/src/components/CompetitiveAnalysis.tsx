@@ -87,7 +87,7 @@ export const CompetitiveAnalysis: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {competitors.map((competitor, idx) => {
+              {competitors.map((competitor) => {
                 const isOurs = competitor.tool === 'TelemetryTrade';
                 return (
                   <tr
