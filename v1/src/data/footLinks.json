@@ -12,7 +12,8 @@
   ],
   "moreLinks": [
     { "label": "Terms and Conditions", "href": "/terms" },
-  { "label": "Contact Us", "href": "/contact" }
+  { "label": "Contact Us", "href": "/contact" },
+  { "label": "Sbali.tech", "href": "https://sbali.tech" }
   ],
   "contact": {
     "addressLines": [
