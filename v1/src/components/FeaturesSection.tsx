@@ -154,23 +154,7 @@ export const FeaturesSection: React.FC = () => {
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-gray-400 mb-6">
-            Explore the full power of TelemetryTrade's 4D Intelligence framework.
-          </p>
-          <Link href="/discovery">
-            <button
-              className="group relative overflow-hidden rounded-lg border-[1px] border-neutral-500 bg-neutral-700 px-6 py-3 font-mono font-medium uppercase text-neutral-300 transition-colors hover:text-indigo-300 hover:scale-105 active:scale-95"
-            >
-              <div className="relative z-10">
-                Get Started Now
-              </div>
-              <span
-                className="absolute inset-0 z-0 scale-125 bg-gradient-to-t from-indigo-400/0 from-40% via-indigo-400/100 to-indigo-400/0 to-60% opacity-0 transition-opacity group-hover:opacity-100"
-              />
-            </button>
-          </Link>
-        </div>
+       
       </div>
 
       {/* Add animation styles */}
