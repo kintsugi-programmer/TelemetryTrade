@@ -17,6 +17,37 @@ import { Loader2, Bot, User, Send } from "lucide-react";
 type Role = "user" | "model";
 type ChatMessage = { role: Role; text: string };
 
+// Simple markdown bold parser
+const parseMarkdown = (text: string) => {
+  const parts: (string | React.ReactNode)[] = [];
+  let lastIndex = 0;
+
+  // Match **text** pattern for bold
+  const boldRegex = /\*\*([^*]+)\*\*/g;
+  let match;
+
+  while ((match = boldRegex.exec(text)) !== null) {
+    // Add text before the bold part
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    // Add bold text
+    parts.push(
+      <strong key={`bold-${match.index}`} className="font-bold">
+        {match[1]}
+      </strong>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
 export default function CryptoChatbot() {
   const [messages, setMessages] = React.useState<ChatMessage[]>([
     {
@@ -106,7 +137,7 @@ export default function CryptoChatbot() {
                       : "bg-primary text-primary-foreground"
                   }`}
                 >
-                  {m.text}
+                  {parseMarkdown(m.text)}
                 </div>
                 {m.role === "user" && (
                   <div className="flex-shrink-0 rounded-full p-2 bg-primary/15">

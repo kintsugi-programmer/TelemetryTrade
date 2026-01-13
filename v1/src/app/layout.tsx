@@ -9,6 +9,7 @@ import Footer from '@/components/Foot'
 import { Providers } from "@/provider";
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
+import DevModeBanner from '@/components/DevModeBanner';
 const satoshi = localFont({
   src: [
     {
@@ -52,7 +53,8 @@ export default function RootLayout({
       <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
       <body className={`${satoshi.variable} ${rubik80s.variable} bg-[#222222] text-white antialiased`}>
 
-<Nav />
+        <DevModeBanner />
+        <Nav />
 
         <DelayedLoader>
           {children}

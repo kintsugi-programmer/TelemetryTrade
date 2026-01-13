@@ -1,5 +1,6 @@
 // src/app/chat/page.tsx
 import CryptoChatbot from "@/components/CryptoChatbot";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export default function Page() {
   return (
@@ -34,7 +35,9 @@ export default function Page() {
 
         {/* Right Chatbot */}
         <div className="md:w-1/2 w-full">
-          <CryptoChatbot />
+          <ErrorBoundary>
+            <CryptoChatbot />
+          </ErrorBoundary>
         </div>
       </div>
     </div>
