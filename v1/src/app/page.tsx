@@ -5,11 +5,15 @@ import Link from "next/link";
 import { WavyBackground } from "@/components/ui/wavy-background";
 // import { LightRays } from "@/components/ui/light-rays";
 import { Button1 } from "@/components/ui/button1";
+import { FeaturesSection } from "@/components/FeaturesSection";
+import { FourDIntelligence } from "@/components/FourDIntelligence";
+import { CompetitiveAnalysis } from "@/components/CompetitiveAnalysis";
+
 export default function Home() {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-zinc-950">
-      {/* Decorative BG behind content */}
-      
+    <div className="relative w-full overflow-hidden bg-zinc-950">
+      {/* Hero Section */}
+      <section className="min-h-screen w-full">
       <WavyBackground className="mx-auto pb-20 sm:pb-40">
         {/* <LightRays className="pointer-events-none absolute inset-0 z-100" /> */}
 
@@ -83,6 +87,16 @@ export default function Home() {
 
       </div>
       </WavyBackground>
+      </section>
+
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* 4D Intelligence Section */}
+      <FourDIntelligence />
+
+      {/* Competitive Analysis Section */}
+      <CompetitiveAnalysis />
     </div>
   );
 }
