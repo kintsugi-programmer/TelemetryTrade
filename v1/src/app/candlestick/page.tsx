@@ -79,33 +79,50 @@ export default function CryptoChart() {
   useEffect(() => {
     if (!isScriptLoaded || !chartContainerRef.current || !window.TradingView) return;
 
-// Remove any existing widget
-widgetRef.current?.remove();
-chartContainerRef.current.innerHTML = "";
+    // Remove any existing widget safely
+    try {
+      if (widgetRef.current) {
+        widgetRef.current.remove();
+        widgetRef.current = null;
+      }
+    } catch (error) {
+      console.warn('Widget cleanup warning:', error);
+    }
+    
+    // Clear container
+    if (chartContainerRef.current) {
+      chartContainerRef.current.innerHTML = "";
+    }
 
-// Create a new widget and assign with explicit type
-widgetRef.current = new window.TradingView.widget(
-  {
-    autosize: true,
-    symbol: currentSymbol,
-    container_id: chartContainerRef.current.id,
-    interval: "1D",
-    timezone: "Etc/UTC",
-    theme: "dark",
-    style: "1",
-    locale: "en",
-    toolbar_bg: "#1e1e1e",
-    enable_publishing: false,
-    hide_top_toolbar: false,
-    hide_legend: false,
-    save_image: false,
-    backgroundColor: "#0d0d0d",
-  } satisfies TVWidgetConfig
-) as TVWidget;
+    // Create a new widget and assign with explicit type
+    widgetRef.current = new window.TradingView.widget(
+      {
+        autosize: true,
+        symbol: currentSymbol,
+        container_id: chartContainerRef.current.id,
+        interval: "1D",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "en",
+        toolbar_bg: "#1e1e1e",
+        enable_publishing: false,
+        hide_top_toolbar: false,
+        hide_legend: false,
+        save_image: false,
+        backgroundColor: "#0d0d0d",
+      } satisfies TVWidgetConfig
+    ) as TVWidget;
 
     return () => {
-      widgetRef.current?.remove();
-      widgetRef.current = null;
+      try {
+        if (widgetRef.current) {
+          widgetRef.current.remove();
+          widgetRef.current = null;
+        }
+      } catch (error) {
+        console.warn('Widget cleanup warning:', error);
+      }
     };
   }, [isScriptLoaded, currentSymbol]);
 
