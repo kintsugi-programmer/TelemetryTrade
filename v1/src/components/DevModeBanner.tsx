@@ -8,7 +8,7 @@ export default function DevModeBanner() {
       <div className="max-w-7xl mx-auto flex items-center gap-3">
         <AlertCircle className="h-4 w-4 text-amber-500 flex-shrink-0" />
         <p className="text-sm text-amber-200">
-          <span className="font-semibold">Development Mode:</span> Application is running in development environment. Please refresh the page if experiencing issues.
+          <span className="font-semibold">Pre-Sale Prototype:</span> This platform is currently in prototype mode for stakeholders and early users. Features are under active development.
         </p>
       </div>
     </div>

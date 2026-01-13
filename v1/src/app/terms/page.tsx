@@ -75,8 +75,8 @@ export default function TermsPage() {
 
   const SectionCard: React.FC<{ id: string; title: string; children: React.ReactNode }> = ({ id, title, children }) => (
     <section id={id} className="scroll-mt-28">
-      <div className="rounded-2xl border border-white/10 bg-neutral-950/40 p-6 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)]">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white">{title}</h2>
+      <div className="rounded-2xl border border-neutral-700/50 bg-neutral-900/50 backdrop-blur-xl p-6 shadow-2xl">
+        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">{title}</h2>
         <div className="mt-3 space-y-3 text-sm leading-6 text-neutral-300">{children}</div>
       </div>
     </section>
@@ -84,15 +84,15 @@ export default function TermsPage() {
 
   const AnchorNav = () => (
     <nav className="sticky top-20 hidden lg:block">
-      <div className="rounded-2xl border border-white/10 bg-neutral-950/60 p-4">
-        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-400">On this page</div>
+      <div className="rounded-2xl border border-neutral-700/50 bg-neutral-900/50 backdrop-blur-xl p-4 shadow-xl">
+        <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-cyan-400">On this page</div>
         <ul className="space-y-1">
           {SECTIONS.map(s => (
             <li key={s.id}>
               <a
                 href={`#${s.id}`}
-                className={`block rounded-md px-2 py-1 text-sm transition-colors ${
-                  active === s.id ? 'bg-emerald-500/10 text-emerald-300' : 'text-neutral-400 hover:text-neutral-200 hover:bg-white/5'
+                className={`block rounded-lg px-3 py-2 text-sm transition-all ${
+                  active === s.id ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 border border-cyan-500/30' : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-700/30'
                 }`}
               >
                 {s.title}
@@ -105,18 +105,24 @@ export default function TermsPage() {
   )
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
+    <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-neutral-900 to-black text-neutral-100 relative overflow-hidden">
+      {/* Decorative blur blobs */}
+      <div className="absolute top-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      
       {/* Header */}
-      <header className="sticky top-0 z-20 border-b border-white/10 bg-neutral-950/70 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/55">
+      <header className="sticky top-0 z-20 border-b border-white/10 bg-neutral-950/70 backdrop-blur-xl supports-[backdrop-filter]:bg-neutral-950/55">
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex h-16 items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <h1 className="font-rubik text-2xl sm:text-3xl md:text-4xl leading-[0.9] text-white">
-                Terms &amp; Conditions
+              <h1 className="font-rubik text-2xl sm:text-3xl md:text-4xl leading-[0.9]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400">
+                  Terms &amp; Conditions
+                </span>
               </h1>
               <div className="hidden sm:flex flex-col leading-tight">
                 <span className="text-xs text-neutral-400">TelemetryTrade</span>
-                <span className="text-sm font-medium tracking-tight">Legal</span>
+                <span className="text-sm font-medium tracking-tight text-neutral-300">Legal</span>
               </div>
             </div>
             <div className="hidden md:flex items-center gap-2">
@@ -130,11 +136,11 @@ export default function TermsPage() {
       </header>
 
       {/* Hero */}
-      <div className="border-b border-white/10 bg-neutral-950/40">
+      <div className="border-b border-white/10 bg-neutral-950/40 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-4 py-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-3xl text-neutral-300">
-              Welcome to <span className="font-semibold text-neutral-100">TelemetryTrade</span>. These Terms &amp; Conditions (&quot;Terms&quot;)
+              Welcome to <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">TelemetryTrade</span>. These Terms &amp; Conditions (&quot;Terms&quot;)
               govern your access to and use of our websites, apps, dashboards, widgets, APIs and related
               services (collectively, the &quot;Service&quot;). By accessing or using the Service, you agree to be bound
               by these Terms.

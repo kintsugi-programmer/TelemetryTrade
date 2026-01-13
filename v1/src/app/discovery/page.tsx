@@ -506,12 +506,14 @@ const Page: React.FC = () => {
       {/* Content */}
       <main className="mx-auto max-w-full px-4 py-6">
         {/* Status */}
-        <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-neutral-400">
-          <Badge intent="muted">Live • 60s auto-refresh</Badge>
-          <Badge intent="muted">Last update: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</Badge>
-          <Badge intent="default">
-            {totalItems === 0 ? "0 assets" : `Showing ${startIdx + 1}–${endIdx} of ${totalItems}`}
-          </Badge>
+        <div className="mb-4 overflow-x-auto">
+          <div className="flex flex-nowrap items-center gap-2 text-xs text-neutral-400 min-w-max">
+            <Badge intent="muted">Live • 60s auto-refresh</Badge>
+            <Badge intent="muted">Last update: {lastUpdated ? new Date(lastUpdated).toLocaleTimeString() : "—"}</Badge>
+            <Badge intent="default">
+              {totalItems === 0 ? "0 assets" : `Showing ${startIdx + 1}–${endIdx} of ${totalItems}`}
+            </Badge>
+          </div>
         </div>
 
         {/* Main Grid Layout - Table and Chat Side by Side */}

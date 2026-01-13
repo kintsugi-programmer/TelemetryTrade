@@ -45,37 +45,50 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen p-6 md:p-10">
-      <div className="mx-auto w-full max-w-6xl">
+    <main className="min-h-screen bg-gradient-to-b from-zinc-950 via-neutral-900 to-black text-white relative overflow-hidden">
+      {/* Decorative blur blobs */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      
+      <div className="mx-auto w-full max-w-6xl px-4 py-16 md:py-24 relative">
         {/* 2-column on md+, stacked on mobile */}
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           {/* Left: Intro / copy */}
-          <section className="flex flex-col justify-center">
+          <section className="flex flex-col justify-center space-y-6">
             <h1
               className="font-rubik
-                text-4xl sm:text-6xl md:text-6xl lg:text-7xl
-                leading-[0.9] text-white"
+                text-5xl sm:text-6xl md:text-7xl lg:text-8xl
+                leading-[0.9]"
             >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 to-teal-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-emerald-400 to-blue-400">
                 Contact Us
               </span>
             </h1>
 
-            <p className="mt-4 text-base sm:text-lg text-white/80">
-              Got a question or proposal? We`d love to hear from you. Share a few
-              details and we`ll get back to you ASAP.
+            <p className="text-lg sm:text-xl text-neutral-300">
+              Got a question or proposal? We&apos;d love to hear from you. Share a few
+              details and we&apos;ll get back to you ASAP.
             </p>
 
-            <ul className="mt-6 space-y-2 text-white/70 text-sm">
-              <li>• Typical response time: within 1-2 business days</li>
-              <li>• Prefer email? Use the form or write to us directly</li>
-              <li>• Phone optional - add if you want a call-back</li>
+            <ul className="space-y-3 text-neutral-400">
+              <li className="flex items-center gap-3">
+                <span className="text-cyan-400">•</span>
+                <span>Typical response time: within 1-2 business days</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-emerald-400">•</span>
+                <span>Prefer email? Use the form or write to us directly</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-blue-400">•</span>
+                <span>Phone optional - add if you want a call-back</span>
+              </li>
             </ul>
           </section>
 
           {/* Right: Form */}
-          <section className="rounded-2xl border border-white/10 bg-black/50 p-5 sm:p-6 backdrop-blur">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <section className="rounded-2xl border border-neutral-700/50 bg-neutral-900/50 p-6 sm:p-8 backdrop-blur-xl shadow-2xl">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Responsive two-up for name/email on md+ */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <InputField
