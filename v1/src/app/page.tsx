@@ -43,7 +43,7 @@ export default function Home() {
                      drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]
                      leading-snug sm:leading-relaxed"
         >
-          With 4D Intelligence, AI reads the entire market so you don't have to.
+          With 4D Intelligence, AI reads the entire market so you don&apos;t have to.
         </p>
 
         <p

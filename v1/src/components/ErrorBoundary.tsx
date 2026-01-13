@@ -9,10 +9,9 @@ interface Props {
 
 interface State {
   hasError: boolean;
-  error?: Error;
 }
 
-function ErrorBoundaryContent({ hasError, error }: State) {
+function ErrorBoundaryContent({ hasError }: State) {
   const router = useRouter();
   const [isRedirecting, setIsRedirecting] = useState(false);
 
@@ -43,8 +42,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+  static getDerivedStateFromError(): State {
+    return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {

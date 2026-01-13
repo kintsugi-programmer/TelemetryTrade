@@ -1,5 +1,4 @@
 "use client"
-import SlideChatSidebar from "@/components/SlideChatSidebar"
 import CryptoChatbot from "@/components/CryptoChatbot"
 import { ErrorBoundary } from "@/components/ErrorBoundary"
 import { MessageSquare, X } from "lucide-react"
