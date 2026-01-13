@@ -1,6 +1,6 @@
 // src/app/api/crypto-chat/route.ts
 import { NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 
 export const runtime = "nodejs"; // keep server-side
 
@@ -25,12 +25,6 @@ type CoinGeckoCoin = {
   price_change_percentage_7d_in_currency: number;
 };
 
-// Minimal shape of Gemini response we actually use
-type GenAIPart = { text?: string };
-type GenAIContent = { parts?: GenAIPart[] };
-type GenAICandidate = { content?: GenAIContent };
-type GenAIResponse = { candidates?: GenAICandidate[] };
-
 export async function POST(req: Request) {
   try {
     const { message } = (await req.json()) as { message?: string };
@@ -38,12 +32,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Empty message" }, { status: 400 });
     }
 
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+    const GROQ_API_KEY = process.env.GROQ_API_KEY;
     const COINGECKO_URL = process.env.COINGECKO_URL;
 
-    if (!GEMINI_API_KEY) {
+    if (!GROQ_API_KEY) {
       return NextResponse.json(
-        { error: "GEMINI_API_KEY missing in env" },
+        { error: "GROQ_API_KEY missing in env" },
         { status: 500 }
       );
     }
@@ -111,17 +105,18 @@ ${JSON.stringify(simplified, null, 2)}
 User Query: "${message}"
 `;
 
-    const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-    const response = (await genAI.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-    })) as unknown as GenAIResponse;
+    const groq = new Groq({
+      apiKey: GROQ_API_KEY,
+    });
+    const response = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 1024,
+    });
 
-    // Safely extract text without `any`
+    // Safely extract text from Groq response
     const text =
-      response.candidates?.[0]?.content?.parts
-        ?.map((p) => (typeof p?.text === "string" ? p.text : ""))
-        .join("") ?? "I couldn't generate a response.";
+      response.choices?.[0]?.message?.content ?? "I couldn't generate a response.";
 
     return NextResponse.json({ text });
   } catch (err: unknown) {
