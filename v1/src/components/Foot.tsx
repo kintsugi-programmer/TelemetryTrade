@@ -49,6 +49,7 @@ const Footer = () => {
           <div>
             <p className="text-base font-semibold mb-2">Subscribe to Our Newsletters</p>
             <form
+              action="#"
               onSubmit={async (e) => {
                 e.preventDefault();
                 const email = e.currentTarget.email.value;
@@ -142,6 +143,20 @@ const Footer = () => {
                 {footLinks.contact.email}
               </a>
             </p>
+          </div>
+          
+          {/* QR Code - Hidden on mobile */}
+          <div className="hidden md:block pt-4">
+            <p className="text-xs mb-2 text-gray-400">Scan to visit on mobile</p>
+            <div className="bg-white p-2 rounded-lg inline-block shadow-lg hover:scale-105 transition-transform duration-300">
+              <img 
+                src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://telemetrytrade.vercel.app/" 
+                alt="QR Code for TelemetryTrade"
+                width={100}
+                height={100}
+                className="rounded"
+              />
+            </div>
           </div>
         </div>
       </div>
