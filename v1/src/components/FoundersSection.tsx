@@ -125,7 +125,7 @@ export const FoundersSection: React.FC = () => {
                     <p className="text-xs text-gray-500 mb-3">Key Achievements</p>
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       {[
-                        'Distinguished Dean&#39;s List Award',
+                        'Distinguished Deans List Award',
                         '1000+ GitHub Commits',
                         'Lead Developer @ IIITD',
                         'Production Systems @ AIIMS',
