@@ -107,17 +107,17 @@ export default function CryptoChatbot() {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto bg-card border-border">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Bot className="h-5 w-5 text-primary" />
-          TelemetryAI Crypto Analyst
+    <Card className="w-full mx-auto bg-transparent border-0 h-full flex flex-col p-0">
+      <CardHeader className="p-4 border-b border-neutral-800 bg-neutral-900/50 sticky top-0 z-10">
+        <CardTitle className="flex items-center gap-2 text-base font-semibold text-white">
+          <Bot className="h-4 w-4 text-cyan-400" />
+          AI Analyst
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
-        <ScrollArea className="h-[420px] pr-3" ref={listRef}>
-          <div className="space-y-4">
+      <CardContent className="p-0 flex-1 overflow-hidden">
+        <ScrollArea className="h-full w-full" ref={listRef}>
+          <div className="space-y-3 p-4">
             {messages.map((m, i) => (
               <div
                 key={i}
@@ -131,10 +131,10 @@ export default function CryptoChatbot() {
                   </div>
                 )}
                 <div
-                  className={`max-w-[85%] rounded-lg px-3 py-2 text-sm whitespace-pre-wrap ${
+                  className={`max-w-[80%] rounded-lg px-3 py-2 text-xs sm:text-sm whitespace-pre-wrap break-words ${
                     m.role === "model"
-                      ? "bg-muted text-foreground"
-                      : "bg-primary text-primary-foreground"
+                      ? "bg-neutral-800 text-neutral-100"
+                      : "bg-cyan-600 text-white"
                   }`}
                 >
                   {parseMarkdown(m.text)}
@@ -157,17 +157,22 @@ export default function CryptoChatbot() {
         </ScrollArea>
       </CardContent>
 
-      <CardFooter className="gap-2">
+      <CardFooter className="gap-2 p-3 border-t border-neutral-800 bg-neutral-900/50 sticky bottom-0">
         <Input
-          placeholder="Ask about BTC vs ETH, top gainers, entries, risks…"
+          placeholder="Ask about coins..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={onKeyDown}
           disabled={loading}
+          className="h-8 text-xs px-2 py-1 bg-neutral-800 border-neutral-700 text-white placeholder:text-neutral-500"
         />
-        <Button onClick={sendMessage} disabled={loading || !input.trim()}>
-          <Send className="h-4 w-4 mr-1" />
-          Send
+        <Button 
+          onClick={sendMessage} 
+          disabled={loading || !input.trim()}
+          size="sm"
+          className="h-8 bg-cyan-600 hover:bg-cyan-700 text-white"
+        >
+          <Send className="h-3 w-3" />
         </Button>
       </CardFooter>
     </Card>

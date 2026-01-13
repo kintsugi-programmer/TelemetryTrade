@@ -1,6 +1,8 @@
 "use client"
 import SlideChatSidebar from "@/components/SlideChatSidebar"
-import { MessageSquare } from "lucide-react"
+import CryptoChatbot from "@/components/CryptoChatbot"
+import { ErrorBoundary } from "@/components/ErrorBoundary"
+import { MessageSquare, X } from "lucide-react"
 import { ChartModal } from "@/components/ChartModal"
 
 import type React from "react"
@@ -29,12 +31,34 @@ type Currency = "usd" | "inr"
 
 /* API */
 const fetchTokens = async (currency: Currency): Promise<Token[]> => {
-  const res = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en`,
-    { cache: "no-store" },
-  )
-  if (!res.ok) throw new Error("Failed to fetch tokens")
-  return res.json()
+  const maxRetries = 3
+  let lastError: Error | null = null
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const res = await fetch(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en`,
+        { 
+          cache: "no-store",
+          headers: {
+            'Accept': 'application/json',
+          }
+        },
+      )
+      if (!res.ok) {
+        throw new Error(`API error: ${res.status}`)
+      }
+      return await res.json()
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error))
+      if (i < maxRetries - 1) {
+        // Wait before retrying (exponential backoff)
+        await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)))
+      }
+    }
+  }
+  
+  throw lastError || new Error("Failed to fetch tokens after multiple retries")
 }
 
 /* Utils */
@@ -302,11 +326,18 @@ const Page: React.FC = () => {
       setLoading(true)
       setError(null)
       const data = await fetchTokens(currency)
-      setTokens(data)
+      if (!data || data.length === 0) {
+        setError("No token data received from API")
+        setTokens([])
+      } else {
+        setTokens(data)
+      }
       setLastUpdated(Date.now())
     } catch (e: unknown) {
       const err = e as { message?: string }
-      setError(err?.message ?? "Something went wrong")
+      console.error("Token fetch error:", err)
+      setError(err?.message ?? "Failed to load token data. Please try again.")
+      setTokens([])
     } finally {
       setLoading(false)
     }
@@ -458,7 +489,7 @@ const Page: React.FC = () => {
 
               <button
                 className="bg-yellow-950 text-yellow-400 border border-yellow-400 border-b-4 font-medium overflow-hidden relative px-4 py-1 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
-                onClick={() => setChatOpen(true)}
+                onClick={() => setChatOpen(!chatOpen)}
               >
                 <span className="bg-yellow-400 shadow-yellow-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]" />
 
@@ -473,7 +504,7 @@ const Page: React.FC = () => {
       </header>
 
       {/* Content */}
-      <main className="mx-auto max-w-7xl px-4 py-6">
+      <main className="mx-auto max-w-full px-4 py-6">
         {/* Status */}
         <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-neutral-400">
           <Badge intent="muted">Live • 60s auto-refresh</Badge>
@@ -483,7 +514,15 @@ const Page: React.FC = () => {
           </Badge>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)]">
+        {/* Main Grid Layout - Table and Chat Side by Side */}
+        <div className={`grid gap-6 ${
+          chatOpen ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'
+        }`}>
+          
+          {/* Token Table - Takes 2/3 on large screens when chat is open, full width when closed */}
+          <div className={`overflow-hidden rounded-2xl border border-white/10 bg-neutral-950/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)] ${
+            chatOpen ? 'lg:col-span-2' : 'col-span-1'
+          }`}>
           {error ? (
             <div className="flex min-h-[420px] items-center justify-center p-10 text-center">
               <div>
@@ -712,6 +751,34 @@ const Page: React.FC = () => {
               )}
             </div>
           )}
+          </div>
+
+          {/* Chat Panel - Bento Grid Style (1/3 on large screens when visible) */}
+          {chatOpen && (
+            <div className="lg:col-span-1 h-fit order-first lg:order-none">
+              <div className="rounded-2xl border border-white/10 bg-neutral-950/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col h-[500px] lg:h-[600px]">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b border-white/10 bg-neutral-900/50">
+                <h2 className="text-sm font-semibold text-white">AI Analyst</h2>
+                <button
+                  onClick={() => setChatOpen(false)}
+                  className="lg:hidden p-2 hover:bg-neutral-700 rounded-lg transition-colors"
+                  aria-label="Close chat"
+                >
+                  <X className="h-4 w-4 text-neutral-400" />
+                </button>
+              </div>
+              
+              {/* Chat Content */}
+              <div className="flex-1 overflow-hidden">
+                <ErrorBoundary>
+                  <CryptoChatbot />
+                </ErrorBoundary>
+              </div>
+            </div>
+            </div>
+          )}
+
         </div>
 
         {/* Mobile search */}
@@ -735,8 +802,6 @@ const Page: React.FC = () => {
           priceData={selectedToken?.sparkline_in_7d?.price}
           currency={currency}
         />
-
-        <SlideChatSidebar open={chatOpen} onClose={() => setChatOpen(false)} />
       </main>
     </div>
   )
