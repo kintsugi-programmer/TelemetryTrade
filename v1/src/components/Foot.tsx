@@ -52,17 +52,15 @@ const Footer = () => {
               onSubmit={async (e) => {
                 e.preventDefault();
                 const email = e.currentTarget.email.value;
-                try {
-                  const res = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email }),
-                  });
-                  const result = await res.json();
-                  alert(result.message || 'Subscription successful');
-                  e.currentTarget.email.value = '';
-                } catch {
-                  alert('Subscription failed.');
+                const res = await fetch('/api/subscribe', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email }),
+                });
+                const result = await res.json();
+                if (result.success) {
+                  alert(result.message);
+                  e.currentTarget.reset();
                 }
               }}
               className="flex items-center border border-zinc-900 rounded-full overflow-hidden max-w-sm"
