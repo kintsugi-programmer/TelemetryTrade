@@ -120,6 +120,11 @@ const Footer = () => {
                 <Link href={href}>{label}</Link>
               </li>
             ))}
+            <li className="hover:text-cyan-500 hover:translate-x-1 transition duration-200">
+              <Link href="https://www.canva.com/design/DAG97wYP_pc/Fd4pgVJ0TMc6Z3nrZ4phaA/view" target="_blank" rel="noopener noreferrer">
+                Pitch Deck
+              </Link>
+            </li>
           </ul>
         </div>
 
