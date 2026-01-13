@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { FoundersSection } from "@/components/FoundersSection";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -151,6 +152,9 @@ export default function ContactPage() {
           </section>
         </div>
       </div>
+
+      {/* Founders Section */}
+      <FoundersSection />
     </main>
   );
 }

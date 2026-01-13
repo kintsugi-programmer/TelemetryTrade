@@ -8,6 +8,7 @@ import { Button1 } from "@/components/ui/button1";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { FourDIntelligence } from "@/components/FourDIntelligence";
 import { CompetitiveAnalysis } from "@/components/CompetitiveAnalysis";
+import { FoundersSection } from "@/components/FoundersSection";
 
 export default function Home() {
   return (
@@ -97,6 +98,9 @@ export default function Home() {
 
       {/* Competitive Analysis Section */}
       <CompetitiveAnalysis />
+
+      {/* Founders Section */}
+      <FoundersSection />
     </div>
   );
 }
