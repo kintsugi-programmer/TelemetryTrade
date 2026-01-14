@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import localFont from "next/font/local";
 import {
   ClerkProvider
@@ -58,6 +60,8 @@ export default function RootLayout({
 
         <DelayedLoader>
           {children}
+          <Analytics />
+          <SpeedInsights />
             
           </DelayedLoader>
         <Footer/>
