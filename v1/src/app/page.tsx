@@ -9,6 +9,7 @@ import { FeaturesSection } from "@/components/FeaturesSection";
 import { FourDIntelligence } from "@/components/FourDIntelligence";
 import { CompetitiveAnalysis } from "@/components/CompetitiveAnalysis";
 import { FoundersSection } from "@/components/FoundersSection";
+import { FundingHighlight } from "@/components/FundingHighlight";
 
 export default function Home() {
   return (
@@ -89,6 +90,9 @@ export default function Home() {
       </div>
       </WavyBackground>
       </section>
+
+      {/* Funding Started & Recognition Highlight */}
+      <FundingHighlight />
 
       {/* Features Section */}
       <FeaturesSection />
