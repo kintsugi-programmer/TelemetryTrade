@@ -97,7 +97,7 @@ export default function JoinWaitlist() {
               <div className="max-w-md mx-auto">
                 <div className="flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-green-500/20 border border-green-500/50 text-green-400 animate-in fade-in zoom-in duration-300">
                   <CheckCircle2 className="w-6 h-6" />
-                  <span className="font-semibold">You're on the waitlist!</span>
+                  <span className="font-semibold">You&#39;re on the waitlist!</span>
                 </div>
               </div>
             )}
