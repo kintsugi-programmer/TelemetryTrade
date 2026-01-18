@@ -782,7 +782,10 @@ const Page: React.FC = () => {
 
         </div>
 
-        {/* Mobile search */}
+        {/* CoinGecko Attribution */}
+        <div className="mt-6 text-center">
+          <p className="text-xs text-neutral-500/60">Market data powered by <span className="text-neutral-400/60">CoinGecko API</span></p>
+        </div>
         <div className="mt-6 md:hidden">
           <input
             value={query}
@@ -790,6 +793,11 @@ const Page: React.FC = () => {
             placeholder="Search assets…"
             className="w-full rounded-xl border border-white/10 bg-neutral-900 px-3 py-2 text-sm outline-none placeholder:text-neutral-500"
           />
+        </div>
+
+        {/* CoinGecko Attribution */}
+        <div className="mt-8 text-center">
+          <p className="text-xs text-neutral-500/60">Market data powered by <span className="text-neutral-400/60 font-medium">CoinGecko API</span></p>
         </div>
 
         <ChartModal

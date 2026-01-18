@@ -1,7 +1,8 @@
 "use client";
 
-import { Maximize2, Minimize2, Search } from "lucide-react";
+import { Maximize2, Minimize2, Search, MessageSquare, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import CryptoChatbot from "@/components/CryptoChatbot";
 
 /** ---- Minimal TradingView typings ---- */
 type TVWidget = { remove: () => void };
@@ -48,6 +49,7 @@ const POPULAR_CRYPTOS = [
 
 export default function CryptoChart() {
   const [currentSymbol, setCurrentSymbol] = useState("BTCUSD");
+  const [chatOpen, setChatOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
@@ -223,7 +225,7 @@ export default function CryptoChart() {
             </div>
 
             {/* Popular crypto buttons */}
-            <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-4">
               {POPULAR_CRYPTOS.map((crypto) => (
                 <button
                   key={crypto.symbol}
@@ -237,10 +239,27 @@ export default function CryptoChart() {
                   {crypto.name}
                 </button>
               ))}
-            </div>
+              </div>
+
+              {/* Chat Button */}
+              <div className="flex gap-2 mt-4">
+                <button
+                  onClick={() => setChatOpen(!chatOpen)}
+                  className="bg-yellow-950 text-yellow-400 border border-yellow-400 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group"
+                >
+                  <span className="bg-yellow-400 shadow-yellow-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]" />
+                  <span className="flex items-center gap-2">
+                    <MessageSquare className="h-4 w-4" />
+                    Chat
+                  </span>
+                </button>
+              </div>
           </div>
 
-          {/* Chart container */}
+          {/* Chart and Chat Grid Container */}
+          <div className={`grid gap-6 ${chatOpen ? 'grid-cols-1 lg:grid-cols-3' : 'grid-cols-1'}`}>
+            {/* Chart - Takes 2/3 on large screens when chat is open */}
+            <div className={`${chatOpen ? 'lg:col-span-2' : 'col-span-1'}`}>
           <div
             className={`bg-neutral-950 ${
               isFullscreen ? "h-[calc(100vh-200px)]" : "h-[500px]"
@@ -251,6 +270,31 @@ export default function CryptoChart() {
               id="tradingview-chart"
               className="w-full h-full rounded-b-2xl"
             />
+          </div>
+            </div>
+
+            {/* Chat Panel */}
+            {chatOpen && (
+              <div className="lg:col-span-1 h-fit order-first lg:order-none">
+                <div className="rounded-2xl border border-white/10 bg-neutral-950/40 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_10px_30px_-12px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col h-[500px] lg:h-[600px]">
+                  {/* Header */}
+                  <div className="flex items-center justify-between p-4 border-b border-white/10 bg-neutral-900/50">
+                    <h2 className="text-sm font-semibold text-white">AI Analyst</h2>
+                    <button
+                      onClick={() => setChatOpen(false)}
+                      className="lg:hidden p-2 hover:bg-neutral-700 rounded-lg transition-colors"
+                      aria-label="Close chat"
+                    >
+                      <X className="h-4 w-4 text-neutral-400" />
+                    </button>
+                  </div>
+                  {/* Chat */}
+                  <div className="flex-1 overflow-y-auto">
+                    <CryptoChatbot />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
