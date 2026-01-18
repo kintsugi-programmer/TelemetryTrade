@@ -13,7 +13,7 @@ export default function NicheFocusBanner() {
                 <div className="flex items-start gap-3">
                     <Info className="h-4 w-4 text-pink-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-pink-200">Market Focus</p>
+                        <p className="text-xs font-semibold text-pink-200">Temporary Market Focus</p>
                         <p className="text-xs text-pink-300/80 mt-1">Crypto assets are chosen as niche for early development. We will focus on other domains (Forex, Stocks, IPOs, etc.) later after developing a good base.</p>
                     </div>
                     <button
