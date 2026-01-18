@@ -5,13 +5,15 @@ import localFont from "next/font/local";
 import {
   ClerkProvider
 } from '@clerk/nextjs'
-import { Rubik_80s_Fade } from "next/font/google"; 
+import { Rubik_80s_Fade } from "next/font/google";
 import "./globals.css";
 import Footer from '@/components/Foot'
 import { Providers } from "@/provider";
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
 import DevModeBanner from '@/components/DevModeBanner';
+import NicheFocusBanner from '@/components/NicheFocusBanner';
+
 const satoshi = localFont({
   src: [
     {
@@ -50,24 +52,25 @@ export default function RootLayout({
 }>) {
   return (
     <Providers>
-    <ClerkProvider>
-    <html lang="en">
-      <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
-      <body className={`${satoshi.variable} ${rubik80s.variable} bg-[#222222] text-white antialiased`}>
+      <ClerkProvider>
+        <html lang="en">
+          <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
+          <body className={`${satoshi.variable} ${rubik80s.variable} bg-[#222222] text-white antialiased`}>
 
-        <DevModeBanner />
-        <Nav />
+            <DevModeBanner />
+            <NicheFocusBanner />
+            <Nav />
 
-        <DelayedLoader>
-          {children}
-          <Analytics />
-          <SpeedInsights />
-            
-          </DelayedLoader>
-        <Footer/>
-      </body>
-    </html>
-    </ClerkProvider>
+            <DelayedLoader>
+              {children}
+              <Analytics />
+              <SpeedInsights />
+
+            </DelayedLoader>
+            <Footer />
+          </body>
+        </html>
+      </ClerkProvider>
     </Providers>
   );
 }
