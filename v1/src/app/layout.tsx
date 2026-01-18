@@ -12,6 +12,7 @@ import { Providers } from "@/provider";
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
 import BannersStack from '@/components/BannersStack';
+import JoinWaitlist from '@/components/JoinWaitlist';
 
 const satoshi = localFont({
   src: [
@@ -65,6 +66,7 @@ export default function RootLayout({
               <SpeedInsights />
 
             </DelayedLoader>
+            <JoinWaitlist />
             <Footer />
           </body>
         </html>

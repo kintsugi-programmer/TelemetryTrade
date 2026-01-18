@@ -795,11 +795,6 @@ const Page: React.FC = () => {
           />
         </div>
 
-        {/* CoinGecko Attribution */}
-        <div className="mt-8 text-center">
-          <p className="text-xs text-neutral-500/60">Market data powered by <span className="text-neutral-400/60 font-medium">CoinGecko API</span></p>
-        </div>
-
         <ChartModal
           open={modalOpen}
           onClose={() => {
