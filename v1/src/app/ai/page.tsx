@@ -4,7 +4,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-neutral-900 to-zinc-950 py-16 px-4 flex flex-col items-center w-full relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-neutral-900 to-zinc-950 py-5 px-4 flex flex-col items-center w-full relative overflow-hidden">
       {/* Background gradient accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl opacity-30"></div>

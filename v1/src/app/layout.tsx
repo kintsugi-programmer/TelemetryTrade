@@ -11,8 +11,7 @@ import Footer from '@/components/Foot'
 import { Providers } from "@/provider";
 import DelayedLoader from '@/components/DelayedLoader'
 import Nav from "@/components/Nav";
-import DevModeBanner from '@/components/DevModeBanner';
-import NicheFocusBanner from '@/components/NicheFocusBanner';
+import BannersStack from '@/components/BannersStack';
 
 const satoshi = localFont({
   src: [
@@ -34,7 +33,7 @@ const satoshi = localFont({
   ],
   variable: "--font-satoshi",
 });
-const rubik80s = Rubik_80s_Fade({
+                                                                                      const rubik80s = Rubik_80s_Fade({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-rubik-80s",
@@ -57,8 +56,7 @@ export default function RootLayout({
           <head><meta name="apple-mobile-web-app-title" content="TelemetryTrade" /></head>
           <body className={`${satoshi.variable} ${rubik80s.variable} bg-[#222222] text-white antialiased`}>
 
-            <DevModeBanner />
-            <NicheFocusBanner />
+            <BannersStack />
             <Nav />
 
             <DelayedLoader>
