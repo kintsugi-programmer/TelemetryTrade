@@ -1,4 +1,3 @@
-// src/components/CryptoChatbot.tsx
 "use client";
 
 import * as React from "react";
@@ -13,40 +12,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Loader2, Bot, User, Send, Sparkles } from "lucide-react";
+import ReactMarkdown from 'react-markdown';
 
 type Role = "user" | "model";
 type ChatMessage = { role: Role; text: string };
-
-// Simple markdown bold parser
-const parseMarkdown = (text: string) => {
-  const parts: (string | React.ReactNode)[] = [];
-  let lastIndex = 0;
-
-  // Match **text** pattern for bold
-  const boldRegex = /\*\*([^*]+)\*\*/g;
-  let match;
-
-  while ((match = boldRegex.exec(text)) !== null) {
-    // Add text before the bold part
-    if (match.index > lastIndex) {
-      parts.push(text.substring(lastIndex, match.index));
-    }
-    // Add bold text
-    parts.push(
-      <strong key={`bold-${match.index}`} className="font-bold">
-        {match[1]}
-      </strong>
-    );
-    lastIndex = match.index + match[0].length;
-  }
-
-  // Add remaining text
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
-  }
-
-  return parts.length > 0 ? parts : text;
-};
 
 // Light-weight follow-up generator so each model reply surfaces fresh prompts
 const buildFollowUps = (userText?: string, modelText?: string, isFirstModel?: boolean) => {
@@ -195,9 +164,8 @@ export default function CryptoChatbot() {
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className={`flex items-start gap-3 ${
-                    m.role === "user" ? "justify-end" : ""
-                  }`}
+                  className={`flex items-start gap-3 ${m.role === "user" ? "justify-end" : ""
+                    }`}
                 >
                   {m.role === "model" && (
                     <div className="flex-shrink-0 rounded-full p-2 bg-muted">
@@ -207,13 +175,25 @@ export default function CryptoChatbot() {
 
                   <div className="flex max-w-[80%] flex-col gap-2">
                     <div
-                      className={`rounded-lg px-3 py-2 text-xs sm:text-sm whitespace-pre-wrap break-words ${
-                        m.role === "model"
+                      className={`rounded-lg px-3 py-2 text-xs sm:text-sm whitespace-pre-wrap break-words ${m.role === "model"
                           ? "bg-neutral-800 text-neutral-100"
                           : "bg-cyan-600 text-white"
-                      }`}
+                        }`}
                     >
-                      {parseMarkdown(m.text)}
+                      <ReactMarkdown
+                        components={{
+                          strong: ({ ...props }) => <span className="font-bold text-cyan-400" {...props} />,
+                          ul: ({ ...props }) => <ul className="list-disc pl-4 space-y-1 my-2" {...props} />,
+                          ol: ({ ...props }) => <ol className="list-decimal pl-4 space-y-1 my-2" {...props} />,
+                          li: ({ ...props }) => <li className="pl-1" {...props} />,
+                          h1: ({ ...props }) => <h1 className="text-lg font-bold my-2 text-white" {...props} />,
+                          h2: ({ ...props }) => <h2 className="text-base font-bold my-2 text-white" {...props} />,
+                          h3: ({ ...props }) => <h3 className="text-sm font-bold my-1 text-white" {...props} />,
+                          p: ({ ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                        }}
+                      >
+                        {m.text}
+                      </ReactMarkdown>
                     </div>
 
                     {m.role === "model" && i === followupForIndex && followups.length > 0 && (
