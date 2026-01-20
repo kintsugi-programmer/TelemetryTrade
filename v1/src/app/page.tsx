@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { WavyBackground } from "@/components/ui/wavy-background";
 // import { LightRays } from "@/components/ui/light-rays";
-import { Button1 } from "@/components/ui/button1";
+// import { Button1 } from "@/components/ui/button1";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { FourDIntelligence } from "@/components/FourDIntelligence";
 import { CompetitiveAnalysis } from "@/components/CompetitiveAnalysis";
