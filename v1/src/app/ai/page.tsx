@@ -32,7 +32,7 @@ export default function Page() {
             </p>
 
             <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
-              Powered by advanced Groq LLM with live CoinGecko market feeds. Ask about price trends, market caps, volatility, and trading insights across the Web3 ecosystem.
+              Powered by advanced LLM with live market feeds. Ask about price trends, market caps, volatility, and trading insights across the Web3 ecosystem.
             </p>
           </div>
 

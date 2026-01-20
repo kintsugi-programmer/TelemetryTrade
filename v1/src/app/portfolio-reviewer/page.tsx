@@ -41,7 +41,7 @@ export default function PortfolioReviewerPage() {
                             Upload your crypto portfolio for real-time AI analysis.
                         </p>
                         <p className="text-neutral-400 text-sm sm:text-base leading-relaxed">
-                            Our AI cross-references your holdings with live CoinGecko market data to provide specific, actionable performance insights and risk assessment.
+                            Our AI cross-references your holdings with live Real-time market data to provide specific, actionable performance insights and risk assessment.
                         </p>
                     </div>
 
