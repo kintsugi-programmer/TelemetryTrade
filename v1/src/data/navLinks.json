@@ -1,7 +1,26 @@
 [
-  { "label": "Token Discovery", "href": "/discovery" },
-  { "label": "TelemetryAI", "href": "/ai" },
-  { "label": "CandleStick Chart", "href": "/candlestick" },
-  { "label": "Contact Us", "href": "/contact" },
-  { "label": "Sbali.tech", "href": "https://sbali.tech" }
+  {
+    "label": "Token Discovery",
+    "href": "/discovery"
+  },
+  {
+    "label": "TelemetryAI",
+    "href": "/ai"
+  },
+  {
+    "label": "Portfolio Reviewer",
+    "href": "/portfolio-reviewer"
+  },
+  {
+    "label": "CandleStick Chart",
+    "href": "/candlestick"
+  },
+  {
+    "label": "Contact Us",
+    "href": "/contact"
+  },
+  {
+    "label": "Sbali.tech",
+    "href": "https://sbali.tech"
+  }
 ]

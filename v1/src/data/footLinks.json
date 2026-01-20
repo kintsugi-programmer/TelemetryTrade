@@ -1,19 +1,52 @@
 {
   "socialMedia": [
-    { "label": "LinkedIn", "icon": "FaLinkedin", "href": "https://www.linkedin.com/in/kintsugi-programmer/" },
-    { "label": "Instagram", "icon": "FaInstagram", "href": "https://www.instagram.com/codingismeditation/" },
-    { "label": "YouTube", "icon": "FaYoutube", "href": "https://www.youtube.com/@CodingIsMeditation" }
+    {
+      "label": "LinkedIn",
+      "icon": "FaLinkedin",
+      "href": "https://www.linkedin.com/in/kintsugi-programmer/"
+    },
+    {
+      "label": "Instagram",
+      "icon": "FaInstagram",
+      "href": "https://www.instagram.com/codingismeditation/"
+    },
+    {
+      "label": "YouTube",
+      "icon": "FaYoutube",
+      "href": "https://www.youtube.com/@CodingIsMeditation"
+    }
   ],
   "usefulLinks": [
-  { "label": "Token Discovery", "href": "/discovery" },
-  { "label": "TelemetryAI", "href": "/ai" },
-  { "label": "CandleStick Chart", "href": "/candlestick" }
-
+    {
+      "label": "Token Discovery",
+      "href": "/discovery"
+    },
+    {
+      "label": "TelemetryAI",
+      "href": "/ai"
+    },
+    {
+      "label": "Portfolio Reviewer",
+      "href": "/portfolio-reviewer"
+    },
+    {
+      "label": "CandleStick Chart",
+      "href": "/candlestick"
+    }
   ],
   "moreLinks": [
-    { "label": "Terms and Conditions", "href": "/terms" },
-  { "label": "Contact Us", "href": "/contact" },
-  { "label": "Sbali.tech", "href": "https://sbali.tech" }
+    {
+      "label": "Terms and Conditions",
+      "href": "/terms"
+    },
+    {
+      "label": "Contact Us",
+      "href": "/contact"
+    },
+    {
+      "label": "Sbali.tech",
+      "href": "https://sbali.tech"
+    }
   ],
   "contact": {
     "addressLines": [
