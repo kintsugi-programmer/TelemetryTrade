@@ -104,6 +104,48 @@ Result
 
 ---
 
+## 📦 Package Manager: Bun Runtime
+
+The project has been migrated to **Bun** for improved performance and developer experience.
+
+### Why Bun?
+- **~3-4x faster** install and build times compared to npm/yarn
+- Built-in TypeScript support without transpilation overhead
+- Faster test execution with integrated test runner
+- Reduced disk space usage with optimized lockfile (`bun.lock`)
+- Better monorepo support and workspaces
+
+### Using Bun
+
+**Installation** (if not already installed):
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+**Common Commands**:
+```bash
+bun install          # Install dependencies
+bun dev             # Start development server
+bun build           # Create production build
+bun start           # Start production server
+bun lint            # Run ESLint
+bun test            # Run tests (if configured)
+```
+
+**Migration Notes**:
+- `package-lock.json` has been replaced with `bun.lock`
+- All npm scripts continue to work identically
+- Dependencies are synced with the original `package.json`
+- Bun is backwards-compatible with Node.js/npm ecosystem
+
+**For CI/CD (Vercel)**:
+- Install Command: `bun install`
+- Build Command: `bun run build`
+- Development Command: `next dev`
+- Output Directory: `.next`
+
+---
+
 ## 🛠️ Project Roadmap (24Hours Scope)
 
 ```plaintext
