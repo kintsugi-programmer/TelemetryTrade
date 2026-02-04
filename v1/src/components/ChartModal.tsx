@@ -178,12 +178,10 @@ export const ChartModal: React.FC<ChartModalProps> = ({
                     borderRadius: 10,
                   }}
                   labelStyle={{ color: "rgba(255,255,255,0.8)" }}
-                  formatter={(value: number, key) => {
+                  formatter={(value: number | undefined, key: string | number | undefined) => {
+                    if (value === undefined || key === undefined) return ["", ""]
                     const isUsd = key.toString().toLowerCase() === "usd"
-                    const v =
-                      isUsd
-                        ? (value as number)
-                        : (value as number)
+                    const v = value
                     return [
                       isUsd
                         ? `$${v < 1 ? v.toFixed(6) : v.toLocaleString("en-US", { maximumFractionDigits: 2 })}`
