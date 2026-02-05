@@ -135,10 +135,10 @@ export const FourDIntelligence: React.FC = () => {
         {/* Summary Statement */}
         <div className="mt-16 text-center p-8 rounded-2xl border border-cyan-500/20 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 backdrop-blur-sm">
           <p className="text-lg text-gray-200 mb-4">
-            <span className="font-bold text-cyan-400">Slogan:</span> Deep Data. Dynamic Analysis. Dimensional Insight. Decision Intelligence.
+            Deep Data. Dynamic Analysis. Dimensional Insight. Decision Intelligence.
           </p>
           <p className="text-gray-400">
-            <span className="font-bold text-cyan-400">Ultra-Short Branding:</span> 4D AI for traders: Input. Motion. Insight. Decisions.
+             4D AI for traders: Input. Motion. Insight. Decisions.
           </p>
         </div>
       </div>
