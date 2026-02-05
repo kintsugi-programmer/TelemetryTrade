@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Image, Download } from "lucide-react";
+import Image from "next/image";
+import { X, ImageIcon, Download } from "lucide-react";
 
 export default function SamplePopup() {
     const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function SamplePopup() {
                 onClick={() => setIsOpen(true)}
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 transition-colors"
             >
-                <Image className="w-3.5 h-3.5" />
+                <ImageIcon className="w-3.5 h-3.5" />
                 <span>View Sample</span>
             </button>
 
@@ -39,11 +40,14 @@ export default function SamplePopup() {
                         </button>
 
                         {/* Image */}
-                        <div className="rounded-md overflow-hidden bg-black/40 mb-2">
-                            <img
+                        <div className="rounded-md overflow-hidden bg-black/40 mb-2 relative w-full h-auto">
+                            <Image
                                 src="/sample.jpeg"
                                 alt="Sample Portfolio"
+                                width={200}
+                                height={200}
                                 className="w-full h-auto"
+                                priority
                             />
                         </div>
 
